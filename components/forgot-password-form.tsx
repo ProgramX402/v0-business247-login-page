@@ -35,27 +35,34 @@ export function ForgotPasswordForm() {
             Check your email
           </h2>
           <p className="text-muted-foreground">
-            We&apos;ve sent a password reset link to{" "}
+            We&apos;ve sent a 6-digit reset code to{" "}
             <span className="font-medium text-foreground">{email}</span>
           </p>
         </div>
 
         <div className="space-y-4">
-          <p className="text-sm text-center text-muted-foreground">
-            Didn&apos;t receive the email? Check your spam folder or try again with a different email address.
-          </p>
+          <Link href={`/verify-code?email=${encodeURIComponent(email)}`}>
+            <Button
+              className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-medium transition-all"
+            >
+              Enter reset code
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
 
-          <Button
-            variant="outline"
-            className="w-full h-11 border-border hover:bg-accent transition-all"
-            onClick={() => {
-              setIsSubmitted(false)
-              setEmail("")
-            }}
-          >
-            <Mail className="mr-2 h-4 w-4" />
-            Try a different email
-          </Button>
+          <p className="text-sm text-center text-muted-foreground">
+            Didn&apos;t receive the code? Check your spam folder or{" "}
+            <button
+              type="button"
+              onClick={() => {
+                setIsSubmitted(false)
+                setEmail("")
+              }}
+              className="font-medium text-primary hover:text-primary/80 transition-colors"
+            >
+              try a different email
+            </button>
+          </p>
         </div>
 
         <p className="text-center text-sm text-muted-foreground">
@@ -85,7 +92,7 @@ export function ForgotPasswordForm() {
           Forgot your password?
         </h2>
         <p className="text-muted-foreground">
-          Enter your email address and we&apos;ll send you a link to reset your password.
+          Enter your email address and we&apos;ll send you a code to reset your password.
         </p>
       </div>
 
@@ -114,7 +121,7 @@ export function ForgotPasswordForm() {
             <Loader2 className="h-5 w-5 animate-spin" />
           ) : (
             <>
-              Send reset link
+              Send reset code
               <ArrowRight className="ml-2 h-4 w-4" />
             </>
           )}
