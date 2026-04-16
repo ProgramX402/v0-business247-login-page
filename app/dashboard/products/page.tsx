@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Search,
   Filter,
@@ -15,6 +16,8 @@ import {
   Package,
   DollarSign,
   ShoppingCart,
+  AlertCircle,
+  CheckCircle2,
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import {
@@ -148,8 +151,25 @@ const categoryColors: Record<string, string> = {
 export default function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
+  const [activeTab, setActiveTab] = useState("all")
 
-  const filteredProducts = mockProducts.filter((product) => {
+  // Segment products by stock status
+  const getProductsByStatus = (status: string) => {
+    switch (status) {
+      case "all":
+        return mockProducts
+      case "available":
+        return mockProducts.filter((p) => p.stock > 20)
+      case "low-stock":
+        return mockProducts.filter((p) => p.stock > 0 && p.stock <= 20)
+      case "stock-out":
+        return mockProducts.filter((p) => p.stock === 0)
+      default:
+        return mockProducts
+    }
+  }
+
+  const filteredProducts = getProductsByStatus(activeTab).filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesCategory = selectedCategory === "All" || product.category === selectedCategory
     return matchesSearch && matchesCategory
@@ -162,6 +182,8 @@ export default function ProductsPage() {
   const totalProducts = mockProducts.length
   const totalStock = mockProducts.reduce((sum, p) => sum + p.stock, 0)
   const totalSold = mockProducts.reduce((sum, p) => sum + p.sold, 0)
+  const lowStockCount = mockProducts.filter((p) => p.stock > 0 && p.stock <= 20).length
+  const stockOutCount = mockProducts.filter((p) => p.stock === 0).length
 
   const handleAction = (action: string, productId: string) => {
     console.log(`[v0] Action: ${action}, Product: ${productId}`)
@@ -264,7 +286,7 @@ export default function ProductsPage() {
 
       {/* Products Grid */}
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <CardTitle>Products List</CardTitle>
             <CardDescription>
@@ -275,7 +297,47 @@ export default function ProductsPage() {
             <Filter className="h-4 w-4" />
           </Button>
         </CardHeader>
-        <CardContent className="px-3 sm:px-6">
+
+        {/* Stock Status Tabs */}
+        <div className="px-3 sm:px-6 pb-4 border-b">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="w-full justify-start h-auto gap-2 bg-transparent p-0">
+              <TabsTrigger 
+                value="all" 
+                className="data-[state=active]:bg-foreground data-[state=active]:text-background rounded-full px-4 py-2 text-sm font-medium"
+              >
+                <span>All</span>
+                <span className="ml-2 text-xs opacity-70">({mockProducts.length})</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="available" 
+                className="data-[state=active]:bg-green-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium"
+              >
+                <CheckCircle2 className="h-4 w-4 mr-2" />
+                Available
+                <span className="ml-2 text-xs opacity-70">({mockProducts.filter((p) => p.stock > 20).length})</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="low-stock" 
+                className="data-[state=active]:bg-yellow-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium"
+              >
+                <AlertCircle className="h-4 w-4 mr-2" />
+                Low Stock
+                <span className="ml-2 text-xs opacity-70">({lowStockCount})</span>
+              </TabsTrigger>
+              <TabsTrigger 
+                value="stock-out" 
+                className="data-[state=active]:bg-red-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium"
+              >
+                <AlertCircle className="h-4 w-4 mr-2" />
+                Stock Out
+                <span className="ml-2 text-xs opacity-70">({stockOutCount})</span>
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+
+        <CardContent className="px-3 sm:px-6"
           {/* Desktop View */}
           <div className="hidden sm:block overflow-x-auto">
             <table className="w-full">
