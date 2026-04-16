@@ -337,7 +337,7 @@ export default function ProductsPage() {
           </Tabs>
         </div>
 
-        <CardContent className="px-3 sm:px-6"
+        <CardContent className="px-3 sm:px-6 pt-6">
           {/* Desktop View */}
           <div className="hidden sm:block overflow-x-auto">
             <table className="w-full">
