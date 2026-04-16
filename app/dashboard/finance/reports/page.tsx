@@ -281,19 +281,19 @@ export default function ReportsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col gap-3 sm:gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Financial Reports</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-xl sm:text-2xl font-bold text-foreground">Financial Reports</h1>
+          <p className="text-xs sm:text-sm text-muted-foreground">
             Generate and download financial reports for your business
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
           <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
-            <SelectTrigger className="w-[180px]">
-              <Calendar className="h-4 w-4 mr-2" />
+            <SelectTrigger className="w-full sm:w-[180px] text-xs sm:text-sm">
+              <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
               <SelectValue placeholder="Select period" />
             </SelectTrigger>
             <SelectContent>
@@ -305,8 +305,8 @@ export default function ReportsPage() {
           </Select>
           <Dialog open={generateDialogOpen} onOpenChange={setGenerateDialogOpen}>
             <DialogTrigger asChild>
-              <Button>
-                <FilePlus className="h-4 w-4 mr-2" />
+              <Button className="w-full sm:w-auto text-xs sm:text-sm">
+                <FilePlus className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                 Generate Report
               </Button>
             </DialogTrigger>
@@ -374,99 +374,99 @@ export default function ReportsPage() {
       </div>
 
       {/* Financial Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         <Card>
-          <CardContent className="pt-6">
+          <CardContent className="p-4 sm:pt-6">
             <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Total Revenue</p>
-                <p className="text-2xl font-bold">{formatCompactCurrency(financialSummary.totalRevenue)}</p>
+              <div className="space-y-0.5 sm:space-y-1">
+                <p className="text-xs sm:text-sm text-muted-foreground">Total Revenue</p>
+                <p className="text-lg sm:text-2xl font-bold">{formatCompactCurrency(financialSummary.totalRevenue)}</p>
               </div>
-              <div className="h-12 w-12 rounded-full bg-emerald-500/10 flex items-center justify-center">
-                <TrendingUp className="h-6 w-6 text-emerald-600" />
+              <div className="h-9 w-9 sm:h-12 sm:w-12 rounded-full bg-emerald-500/10 flex items-center justify-center">
+                <TrendingUp className="h-4 w-4 sm:h-6 sm:w-6 text-emerald-600" />
               </div>
             </div>
-            <div className="mt-3 flex items-center gap-1 text-sm">
-              <ArrowUpRight className="h-4 w-4 text-emerald-600" />
+            <div className="mt-2 sm:mt-3 flex items-center gap-1 text-xs sm:text-sm">
+              <ArrowUpRight className="h-3 w-3 sm:h-4 sm:w-4 text-emerald-600" />
               <span className="text-emerald-600 font-medium">+{financialSummary.revenueChange}%</span>
-              <span className="text-muted-foreground">vs last period</span>
+              <span className="text-muted-foreground hidden sm:inline">vs last period</span>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="pt-6">
+          <CardContent className="p-4 sm:pt-6">
             <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Total Expenses</p>
-                <p className="text-2xl font-bold">{formatCompactCurrency(financialSummary.totalExpenses)}</p>
+              <div className="space-y-0.5 sm:space-y-1">
+                <p className="text-xs sm:text-sm text-muted-foreground">Total Expenses</p>
+                <p className="text-lg sm:text-2xl font-bold">{formatCompactCurrency(financialSummary.totalExpenses)}</p>
               </div>
-              <div className="h-12 w-12 rounded-full bg-red-500/10 flex items-center justify-center">
-                <CreditCard className="h-6 w-6 text-red-600" />
+              <div className="h-9 w-9 sm:h-12 sm:w-12 rounded-full bg-red-500/10 flex items-center justify-center">
+                <CreditCard className="h-4 w-4 sm:h-6 sm:w-6 text-red-600" />
               </div>
             </div>
-            <div className="mt-3 flex items-center gap-1 text-sm">
-              <ArrowUpRight className="h-4 w-4 text-red-600" />
+            <div className="mt-2 sm:mt-3 flex items-center gap-1 text-xs sm:text-sm">
+              <ArrowUpRight className="h-3 w-3 sm:h-4 sm:w-4 text-red-600" />
               <span className="text-red-600 font-medium">+{financialSummary.expenseChange}%</span>
-              <span className="text-muted-foreground">vs last period</span>
+              <span className="text-muted-foreground hidden sm:inline">vs last period</span>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="pt-6">
+          <CardContent className="p-4 sm:pt-6">
             <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Net Profit</p>
-                <p className="text-2xl font-bold">{formatCompactCurrency(financialSummary.netProfit)}</p>
+              <div className="space-y-0.5 sm:space-y-1">
+                <p className="text-xs sm:text-sm text-muted-foreground">Net Profit</p>
+                <p className="text-lg sm:text-2xl font-bold">{formatCompactCurrency(financialSummary.netProfit)}</p>
               </div>
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <Wallet className="h-6 w-6 text-primary" />
+              <div className="h-9 w-9 sm:h-12 sm:w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <Wallet className="h-4 w-4 sm:h-6 sm:w-6 text-primary" />
               </div>
             </div>
-            <div className="mt-3 flex items-center gap-1 text-sm">
-              <ArrowUpRight className="h-4 w-4 text-emerald-600" />
+            <div className="mt-2 sm:mt-3 flex items-center gap-1 text-xs sm:text-sm">
+              <ArrowUpRight className="h-3 w-3 sm:h-4 sm:w-4 text-emerald-600" />
               <span className="text-emerald-600 font-medium">+{financialSummary.profitChange}%</span>
-              <span className="text-muted-foreground">vs last period</span>
+              <span className="text-muted-foreground hidden sm:inline">vs last period</span>
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="pt-6">
+          <CardContent className="p-4 sm:pt-6">
             <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">Profit Margin</p>
-                <p className="text-2xl font-bold">{financialSummary.profitMargin}%</p>
+              <div className="space-y-0.5 sm:space-y-1">
+                <p className="text-xs sm:text-sm text-muted-foreground">Profit Margin</p>
+                <p className="text-lg sm:text-2xl font-bold">{financialSummary.profitMargin}%</p>
               </div>
-              <div className="h-12 w-12 rounded-full bg-blue-500/10 flex items-center justify-center">
-                <PieChart className="h-6 w-6 text-blue-600" />
+              <div className="h-9 w-9 sm:h-12 sm:w-12 rounded-full bg-blue-500/10 flex items-center justify-center">
+                <PieChart className="h-4 w-4 sm:h-6 sm:w-6 text-blue-600" />
               </div>
             </div>
-            <div className="mt-3 flex items-center gap-1 text-sm">
-              <ArrowUpRight className="h-4 w-4 text-emerald-600" />
+            <div className="mt-2 sm:mt-3 flex items-center gap-1 text-xs sm:text-sm">
+              <ArrowUpRight className="h-3 w-3 sm:h-4 sm:w-4 text-emerald-600" />
               <span className="text-emerald-600 font-medium">+{financialSummary.marginChange}%</span>
-              <span className="text-muted-foreground">vs last period</span>
+              <span className="text-muted-foreground hidden sm:inline">vs last period</span>
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* Charts Section */}
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2">
         {/* Revenue vs Expenses Chart */}
         <Card>
-          <CardHeader>
-            <CardTitle>Revenue vs Expenses</CardTitle>
-            <CardDescription>Monthly comparison of income and spending</CardDescription>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base sm:text-lg">Revenue vs Expenses</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Monthly comparison of income and spending</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-2 sm:px-6">
             <ChartContainer
               config={{
                 revenue: { label: "Revenue", color: "hsl(var(--chart-1))" },
                 expenses: { label: "Expenses", color: "hsl(var(--chart-2))" },
               }}
-              className="h-[300px]"
+              className="h-[250px] sm:h-[300px]"
             >
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={revenueExpenseData} barGap={8}>
@@ -490,16 +490,16 @@ export default function ReportsPage() {
 
         {/* Profit Trend Chart */}
         <Card>
-          <CardHeader>
-            <CardTitle>Profit Trend</CardTitle>
-            <CardDescription>Net profit over the last 6 months</CardDescription>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base sm:text-lg">Profit Trend</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Net profit over the last 6 months</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-2 sm:px-6">
             <ChartContainer
               config={{
                 profit: { label: "Profit", color: "hsl(var(--chart-1))" },
               }}
-              className="h-[300px]"
+              className="h-[250px] sm:h-[300px]"
             >
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={profitTrendData}>
@@ -534,15 +534,15 @@ export default function ReportsPage() {
       </div>
 
       {/* Expense Breakdown and Quick Reports */}
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {/* Expense Breakdown */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Expense Breakdown</CardTitle>
-            <CardDescription>Distribution by category</CardDescription>
+        <Card className="md:col-span-2 lg:col-span-1">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base sm:text-lg">Expense Breakdown</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Distribution by category</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[200px]">
+            <div className="h-[180px] sm:h-[200px]">
               <ResponsiveContainer width="100%" height="100%">
                 <RechartsPieChart>
                   <Pie
@@ -585,32 +585,32 @@ export default function ReportsPage() {
         </Card>
 
         {/* Quick Report Generation */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Quick Report Generation</CardTitle>
-            <CardDescription>Generate common financial reports instantly</CardDescription>
+        <Card className="md:col-span-2">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base sm:text-lg">Quick Report Generation</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Generate common financial reports instantly</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-3 grid-cols-2 lg:grid-cols-3">
               {reportTypes.map((report) => (
                 <button
                   key={report.id}
-                  className="flex flex-col items-start gap-2 p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-accent transition-colors text-left"
+                  className="flex flex-col items-start gap-1.5 sm:gap-2 p-3 sm:p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-accent transition-colors text-left"
                   onClick={() => {
                     setSelectedReportType(report.id)
                     setGenerateDialogOpen(true)
                   }}
                 >
-                  <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <report.icon className="h-5 w-5 text-primary" />
+                  <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <report.icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium text-sm">{report.name}</p>
-                    <p className="text-xs text-muted-foreground line-clamp-2">
+                    <p className="font-medium text-xs sm:text-sm">{report.name}</p>
+                    <p className="text-xs text-muted-foreground line-clamp-2 hidden sm:block">
                       {report.description}
                     </p>
                   </div>
-                  <Badge variant="secondary" className="text-xs">
+                  <Badge variant="secondary" className="text-[10px] sm:text-xs">
                     {report.category}
                   </Badge>
                 </button>
@@ -622,16 +622,16 @@ export default function ReportsPage() {
 
       {/* Generated Reports History */}
       <Card>
-        <CardHeader>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <CardHeader className="pb-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <CardTitle>Generated Reports</CardTitle>
-              <CardDescription>Your report generation history</CardDescription>
+              <CardTitle className="text-base sm:text-lg">Generated Reports</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Your report generation history</CardDescription>
             </div>
             <div className="flex items-center gap-2">
               <Select defaultValue="all">
-                <SelectTrigger className="w-[150px]">
-                  <Filter className="h-4 w-4 mr-2" />
+                <SelectTrigger className="w-full sm:w-[150px] text-xs sm:text-sm">
+                  <Filter className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                   <SelectValue placeholder="Filter" />
                 </SelectTrigger>
                 <SelectContent>
