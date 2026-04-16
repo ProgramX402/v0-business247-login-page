@@ -13,6 +13,9 @@ import {
   RotateCcw,
   Trash2,
   Eye,
+  ShoppingCart,
+  TrendingDown,
+  Package,
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import {
@@ -200,44 +203,56 @@ export default function AbandonedOrdersPage() {
       <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-4">
         <Card>
           <CardContent className="p-4">
-            <div className="text-right">
-              <p className="text-2xl sm:text-3xl font-bold text-amber-600">
-                {mockAbandonedOrders.length}
-              </p>
-              <p className="text-xs sm:text-sm text-muted-foreground">Total Abandoned</p>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-2xl sm:text-3xl font-bold text-amber-600">
+                  {mockAbandonedOrders.length}
+                </p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Total Abandoned</p>
+              </div>
+              <ShoppingCart className="h-5 w-5 text-amber-600/50 flex-shrink-0" />
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
-            <div className="text-right">
-              <p className="text-2xl sm:text-3xl font-bold text-foreground">
-                ₦{(totalAbandonedValue / 1000).toFixed(0)}K
-              </p>
-              <p className="text-xs sm:text-sm text-muted-foreground">Potential Revenue</p>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-2xl sm:text-3xl font-bold text-foreground">
+                  ₦{(totalAbandonedValue / 1000).toFixed(0)}K
+                </p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Potential Revenue</p>
+              </div>
+              <TrendingDown className="h-5 w-5 text-foreground/50 flex-shrink-0" />
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
-            <div className="text-right">
-              <p className="text-2xl sm:text-3xl font-bold text-orange-600">
-                {mockAbandonedOrders.filter((o) => {
-                  const daysDiff = Math.floor(Math.random() * 7)
-                  return daysDiff <= 3
-                }).length}
-              </p>
-              <p className="text-xs sm:text-sm text-muted-foreground">Last 3 Days</p>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-2xl sm:text-3xl font-bold text-orange-600">
+                  {mockAbandonedOrders.filter((o) => {
+                    const daysDiff = Math.floor(Math.random() * 7)
+                    return daysDiff <= 3
+                  }).length}
+                </p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Last 3 Days</p>
+              </div>
+              <AlertCircle className="h-5 w-5 text-orange-600/50 flex-shrink-0" />
             </div>
           </CardContent>
         </Card>
         <Card className="hidden sm:block">
           <CardContent className="p-4">
-            <div className="text-right">
-              <p className="text-2xl sm:text-3xl font-bold text-blue-600">
-                {mockAbandonedOrders.reduce((sum, order) => sum + parseInt(order.items), 0)}
-              </p>
-              <p className="text-xs sm:text-sm text-muted-foreground">Total Items</p>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-2xl sm:text-3xl font-bold text-blue-600">
+                  {mockAbandonedOrders.reduce((sum, order) => sum + parseInt(order.items), 0)}
+                </p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Total Items</p>
+              </div>
+              <Package className="h-5 w-5 text-blue-600/50 flex-shrink-0" />
             </div>
           </CardContent>
         </Card>

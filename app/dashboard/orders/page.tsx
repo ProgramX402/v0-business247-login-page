@@ -13,6 +13,7 @@ import {
   Search,
   Filter,
   MoreHorizontal,
+  TrendingUp,
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import {
@@ -313,38 +314,50 @@ export default function OrdersPage() {
       <div className="grid gap-3 sm:gap-4 grid-cols-3 sm:grid-cols-4">
         <Card>
           <CardContent className="p-4">
-            <div className="text-right">
-              <p className="text-2xl sm:text-3xl font-bold text-yellow-600">{mockOrders.pending.length}</p>
-              <p className="text-xs sm:text-sm text-muted-foreground">Pending</p>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-2xl sm:text-3xl font-bold text-yellow-600">{mockOrders.pending.length}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Pending</p>
+              </div>
+              <Clock className="h-5 w-5 text-yellow-600/50 flex-shrink-0" />
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
-            <div className="text-right">
-              <p className="text-2xl sm:text-3xl font-bold text-blue-600">{mockOrders.processing.length}</p>
-              <p className="text-xs sm:text-sm text-muted-foreground">Processing</p>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-2xl sm:text-3xl font-bold text-blue-600">{mockOrders.processing.length}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Processing</p>
+              </div>
+              <ArrowRight className="h-5 w-5 text-blue-600/50 flex-shrink-0" />
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
-            <div className="text-right">
-              <p className="text-2xl sm:text-3xl font-bold text-green-600">{mockOrders.completed.length}</p>
-              <p className="text-xs sm:text-sm text-muted-foreground">Completed</p>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-2xl sm:text-3xl font-bold text-green-600">{mockOrders.completed.length}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Completed</p>
+              </div>
+              <CheckCircle2 className="h-5 w-5 text-green-600/50 flex-shrink-0" />
             </div>
           </CardContent>
         </Card>
         <Card className="hidden sm:block">
           <CardContent className="p-4">
-            <div className="text-right">
-              <p className="text-2xl sm:text-3xl font-bold text-foreground">
-                ₦{(
-                  [...mockOrders.pending, ...mockOrders.processing, ...mockOrders.completed]
-                    .reduce((sum, order) => sum + parseInt(order.amount.replace(/[^\d]/g, "")), 0) / 1000
-                ).toFixed(0)}K
-              </p>
-              <p className="text-xs sm:text-sm text-muted-foreground">Total Revenue</p>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-2xl sm:text-3xl font-bold text-foreground">
+                  ₦{(
+                    [...mockOrders.pending, ...mockOrders.processing, ...mockOrders.completed]
+                      .reduce((sum, order) => sum + parseInt(order.amount.replace(/[^\d]/g, "")), 0) / 1000
+                  ).toFixed(0)}K
+                </p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Total Revenue</p>
+              </div>
+              <TrendingUp className="h-5 w-5 text-foreground/50 flex-shrink-0" />
             </div>
           </CardContent>
         </Card>
