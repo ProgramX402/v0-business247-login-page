@@ -119,12 +119,21 @@ export function Sidebar({ collapsed, onToggleCollapse, isMobile = false }: Sideb
 
   const isActive = (href?: string) => {
     if (!href) return false
-    return pathname === href || pathname.startsWith(href + "/")
+    // Exact match or match with trailing slash
+    if (pathname === href || pathname === href + "/") return true
+    // For nested routes, only match if it's a direct child
+    if (href.includes("/orders")) {
+      // Exact match for /dashboard/orders or /dashboard/orders/abandoned
+      return pathname === href || pathname === href + "/"
+    }
+    // For other routes, allow prefix matching
+    return pathname.startsWith(href + "/")
   }
 
   const isParentActive = (children?: { href: string }[]) => {
     if (!children) return false
-    return children.some((child) => isActive(child.href))
+    // Check if any child route matches the current pathname exactly
+    return children.some((child) => pathname === child.href || pathname === child.href + "/")
   }
 
   return (
