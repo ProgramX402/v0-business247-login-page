@@ -23,6 +23,7 @@ import {
   Lock,
   Zap,
   Activity,
+  BarChart,
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import {
@@ -388,7 +389,7 @@ export default function WebsitesPage() {
                               View
                             </DropdownMenuItem>
                             <DropdownMenuItem>
-                              <BarChart3 className="h-4 w-4 mr-2" />
+                              <BarChart className="h-4 w-4 mr-2" />
                               Analytics
                             </DropdownMenuItem>
                             <DropdownMenuItem>
@@ -485,7 +486,7 @@ export default function WebsitesPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem>
-                          <BarChart3 className="h-4 w-4 mr-2" />
+                          <BarChart className="h-4 w-4 mr-2" />
                           Analytics
                         </DropdownMenuItem>
                         <DropdownMenuItem>

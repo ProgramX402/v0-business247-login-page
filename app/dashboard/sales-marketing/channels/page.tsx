@@ -17,7 +17,7 @@ import {
   Eye,
   AlertCircle,
   CheckCircle2,
-  BarChart3,
+  BarChart,
   Users,
   ShoppingBag,
   Link2,
@@ -227,7 +227,7 @@ export default function SalesChannelsPage() {
               <Eye className="h-4 w-4 mr-2" /> View Details
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer">
-              <BarChart3 className="h-4 w-4 mr-2" /> Analytics
+              <BarChart className="h-4 w-4 mr-2" /> Analytics
             </DropdownMenuItem>
             <DropdownMenuItem className="cursor-pointer">
               <Edit className="h-4 w-4 mr-2" /> Edit
@@ -289,7 +289,7 @@ export default function SalesChannelsPage() {
 
         <div className="grid grid-cols-2 gap-2 pt-3 border-t">
           <Button size="sm" variant="ghost" className="text-xs">
-            <BarChart3 className="h-3 w-3 mr-1" /> Analytics
+            <BarChart className="h-3 w-3 mr-1" /> Analytics
           </Button>
           <Button size="sm" variant="ghost" className="text-xs">
             <Edit className="h-3 w-3 mr-1" /> Edit
