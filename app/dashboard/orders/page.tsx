@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import {
   CheckCircle2,
-  XCircle2,
+  XCircle,
   Clock,
   ArrowRight,
   Search,
@@ -171,7 +171,7 @@ const PendingOrderCard = ({ order, onAction }: { order: (typeof mockOrders.pendi
           className="flex-1 sm:flex-none"
           onClick={() => onAction("reject", order.id)}
         >
-          <XCircle2 className="h-4 w-4 mr-1" />
+          <XCircle className="h-4 w-4 mr-1" />
           <span className="hidden sm:inline">Reject</span>
         </Button>
         <Button
