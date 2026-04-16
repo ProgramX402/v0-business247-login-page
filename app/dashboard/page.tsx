@@ -71,14 +71,14 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-          <p className="text-muted-foreground">Welcome back! Here&apos;s what&apos;s happening with your business.</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-foreground">Dashboard</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">Welcome back! Here&apos;s what&apos;s happening with your business.</p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline">Download Report</Button>
-          <Button>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <Button variant="outline" className="w-full sm:w-auto">Download Report</Button>
+          <Button className="w-full sm:w-auto">
             <TrendingUp className="mr-2 h-4 w-4" />
             View Analytics
           </Button>
@@ -86,28 +86,28 @@ export default function DashboardPage() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
           <Card key={stat.name}>
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between">
-                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <stat.icon className="h-5 w-5 text-primary" />
+                <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                 </div>
-                <div className={`flex items-center gap-1 text-sm font-medium ${
+                <div className={`flex items-center gap-0.5 sm:gap-1 text-xs sm:text-sm font-medium ${
                   stat.trend === "up" ? "text-green-600" : "text-red-600"
                 }`}>
                   {stat.trend === "up" ? (
-                    <ArrowUpRight className="h-4 w-4" />
+                    <ArrowUpRight className="h-3 w-3 sm:h-4 sm:w-4" />
                   ) : (
-                    <ArrowDownRight className="h-4 w-4" />
+                    <ArrowDownRight className="h-3 w-3 sm:h-4 sm:w-4" />
                   )}
                   {stat.change}
                 </div>
               </div>
-              <div className="mt-4">
-                <p className="text-2xl font-bold text-foreground">{stat.value}</p>
-                <p className="text-sm text-muted-foreground">{stat.name}</p>
+              <div className="mt-3 sm:mt-4">
+                <p className="text-lg sm:text-2xl font-bold text-foreground">{stat.value}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">{stat.name}</p>
               </div>
             </CardContent>
           </Card>
@@ -127,31 +127,31 @@ export default function DashboardPage() {
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
+          <CardContent className="px-3 sm:px-6">
+            <div className="space-y-3 sm:space-y-4">
               {recentOrders.map((order) => (
                 <div
                   key={order.id}
-                  className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors gap-3"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <span className="text-sm font-medium text-primary">
+                  <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <span className="text-xs sm:text-sm font-medium text-primary">
                         {order.customer.split(" ").map((n) => n[0]).join("")}
                       </span>
                     </div>
-                    <div>
-                      <p className="font-medium text-foreground">{order.customer}</p>
-                      <p className="text-sm text-muted-foreground">{order.id} · {order.date}</p>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-foreground text-sm sm:text-base truncate">{order.customer}</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground">{order.id} · {order.date}</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${
+                  <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 pl-12 sm:pl-0">
+                    <span className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-xs font-medium ${
                       statusColors[order.status as keyof typeof statusColors]
                     }`}>
                       {order.status}
                     </span>
-                    <span className="font-semibold text-foreground">{order.amount}</span>
+                    <span className="font-semibold text-foreground text-sm sm:text-base">{order.amount}</span>
                   </div>
                 </div>
               ))}

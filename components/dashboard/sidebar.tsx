@@ -36,6 +36,7 @@ import { Button } from "@/components/ui/button"
 interface SidebarProps {
   collapsed: boolean
   onToggleCollapse: () => void
+  isMobile?: boolean
 }
 
 interface NavItem {
@@ -97,7 +98,7 @@ const getIconForChild = (name: string) => {
   return icons[name] || FileText
 }
 
-export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
+export function Sidebar({ collapsed, onToggleCollapse, isMobile = false }: SidebarProps) {
   const pathname = usePathname()
   const [expandedItems, setExpandedItems] = useState<string[]>(["Sales & Marketing", "Finance"])
 
@@ -120,19 +121,23 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
   return (
     <>
       {/* Mobile overlay */}
-      <div
-        className={cn(
-          "fixed inset-0 z-40 bg-foreground/20 backdrop-blur-sm lg:hidden transition-opacity",
-          collapsed ? "opacity-0 pointer-events-none" : "opacity-100"
-        )}
-        onClick={onToggleCollapse}
-      />
+      {isMobile && (
+        <div
+          className={cn(
+            "fixed inset-0 z-40 bg-foreground/20 backdrop-blur-sm transition-opacity",
+            collapsed ? "opacity-0 pointer-events-none" : "opacity-100"
+          )}
+          onClick={onToggleCollapse}
+        />
+      )}
 
       {/* Sidebar */}
       <aside
         className={cn(
           "fixed left-0 top-0 z-50 h-full bg-card border-r border-border transition-all duration-300 flex flex-col",
-          collapsed ? "w-20 -translate-x-full lg:translate-x-0" : "w-64 translate-x-0"
+          isMobile 
+            ? (collapsed ? "w-64 -translate-x-full" : "w-64 translate-x-0")
+            : (collapsed ? "w-20" : "w-64")
         )}
       >
         {/* Logo */}

@@ -106,33 +106,33 @@ export function AIChatWidget() {
       <button
         onClick={() => setIsOpen(true)}
         className={cn(
-          "fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg transition-all hover:scale-105 hover:shadow-xl flex items-center justify-center",
+          "fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-primary text-primary-foreground shadow-lg transition-all hover:scale-105 hover:shadow-xl flex items-center justify-center",
           isOpen && "scale-0 opacity-0"
         )}
       >
-        <MessageCircle className="h-6 w-6" />
-        <span className="absolute -top-1 -right-1 h-4 w-4 bg-green-500 rounded-full border-2 border-background" />
+        <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6" />
+        <span className="absolute -top-1 -right-1 h-3 w-3 sm:h-4 sm:w-4 bg-green-500 rounded-full border-2 border-background" />
       </button>
 
       {/* Chat Window */}
       <div
         className={cn(
-          "fixed z-50 bg-card border border-border rounded-2xl shadow-2xl transition-all duration-300 flex flex-col overflow-hidden",
+          "fixed z-50 bg-card border border-border shadow-2xl transition-all duration-300 flex flex-col overflow-hidden",
           isOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none",
           isExpanded
-            ? "bottom-0 right-0 w-full h-full sm:bottom-6 sm:right-6 sm:w-[480px] sm:h-[680px] sm:rounded-2xl rounded-none"
-            : "bottom-6 right-6 w-[380px] h-[520px]"
+            ? "inset-0 w-full h-full rounded-none sm:bottom-6 sm:right-6 sm:top-auto sm:left-auto sm:w-[480px] sm:h-[680px] sm:rounded-2xl"
+            : "bottom-0 right-0 left-0 h-[85vh] rounded-t-2xl sm:bottom-6 sm:right-6 sm:left-auto sm:w-[380px] sm:h-[520px] sm:rounded-2xl"
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 bg-primary text-primary-foreground rounded-t-2xl">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-primary-foreground/20 flex items-center justify-center">
-              <Sparkles className="h-5 w-5" />
+        <div className="flex items-center justify-between px-3 sm:px-4 py-3 bg-primary text-primary-foreground rounded-t-2xl sm:rounded-t-2xl">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-primary-foreground/20 flex items-center justify-center">
+              <Sparkles className="h-4 w-4 sm:h-5 sm:w-5" />
             </div>
             <div>
-              <h3 className="font-semibold">Business247 AI</h3>
-              <p className="text-xs text-primary-foreground/80">Always here to help</p>
+              <h3 className="font-semibold text-sm sm:text-base">Business247 AI</h3>
+              <p className="text-[10px] sm:text-xs text-primary-foreground/80">Always here to help</p>
             </div>
           </div>
           <div className="flex items-center gap-1">
@@ -229,9 +229,9 @@ export function AIChatWidget() {
 
         {/* Quick Actions */}
         {messages.length <= 2 && (
-          <div className="px-4 pb-2">
-            <p className="text-xs text-muted-foreground mb-2">Quick actions</p>
-            <div className="flex flex-wrap gap-2">
+          <div className="px-3 sm:px-4 pb-2">
+            <p className="text-[10px] sm:text-xs text-muted-foreground mb-2">Quick actions</p>
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {quickActions.map((action) => (
                 <button
                   key={action}
@@ -239,7 +239,7 @@ export function AIChatWidget() {
                     setInput(action)
                     inputRef.current?.focus()
                   }}
-                  className="text-xs px-3 py-1.5 rounded-full border border-border hover:bg-accent transition-colors"
+                  className="text-[10px] sm:text-xs px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border border-border hover:bg-accent transition-colors"
                 >
                   {action}
                 </button>
@@ -249,7 +249,7 @@ export function AIChatWidget() {
         )}
 
         {/* Input */}
-        <div className="p-4 border-t border-border">
+        <div className="p-3 sm:p-4 border-t border-border pb-safe">
           <div className="flex gap-2">
             <Input
               ref={inputRef}
@@ -257,12 +257,12 @@ export function AIChatWidget() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Ask me anything..."
-              className="flex-1 h-11 bg-background"
+              className="flex-1 h-10 sm:h-11 bg-background text-sm"
             />
             <Button
               onClick={handleSend}
               disabled={!input.trim() || isTyping}
-              className="h-11 w-11 p-0"
+              className="h-10 w-10 sm:h-11 sm:w-11 p-0"
             >
               <Send className="h-4 w-4" />
             </Button>
