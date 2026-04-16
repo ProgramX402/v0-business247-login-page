@@ -48,7 +48,14 @@ interface NavItem {
 
 const navigation: NavItem[] = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Orders", href: "/dashboard/orders", icon: ShoppingCart },
+  {
+    name: "Orders",
+    icon: ShoppingCart,
+    children: [
+      { name: "All Orders", href: "/dashboard/orders" },
+      { name: "Abandoned Orders", href: "/dashboard/orders/abandoned" },
+    ],
+  },
   { name: "Products", href: "/dashboard/products", icon: Package },
   {
     name: "Sales & Marketing",
@@ -82,6 +89,8 @@ const navigation: NavItem[] = [
 
 const getIconForChild = (name: string) => {
   const icons: Record<string, React.ComponentType<{ className?: string }>> = {
+    "All Orders": ShoppingCart,
+    "Abandoned Orders": AlertCircle,
     Campaigns: Target,
     "Sales Channels": Store,
     "Brand Designs": Palette,
@@ -100,7 +109,7 @@ const getIconForChild = (name: string) => {
 
 export function Sidebar({ collapsed, onToggleCollapse, isMobile = false }: SidebarProps) {
   const pathname = usePathname()
-  const [expandedItems, setExpandedItems] = useState<string[]>(["Sales & Marketing", "Finance"])
+  const [expandedItems, setExpandedItems] = useState<string[]>(["Orders", "Sales & Marketing", "Finance"])
 
   const toggleExpand = (name: string) => {
     setExpandedItems((prev) =>
