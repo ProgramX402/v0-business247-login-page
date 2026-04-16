@@ -43,6 +43,8 @@ import {
   Eye,
   Download,
   Calendar,
+  Target,
+  Megaphone,
 } from "lucide-react"
 
 // Revenue data for area chart
