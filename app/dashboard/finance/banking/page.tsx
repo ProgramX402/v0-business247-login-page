@@ -581,11 +581,11 @@ export default function BankingPage() {
             </CardHeader>
             <CardContent>
               <Tabs value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="mb-4">
-                  <TabsTrigger value="all">All</TabsTrigger>
-                  <TabsTrigger value="current">Current</TabsTrigger>
-                  <TabsTrigger value="savings">Savings</TabsTrigger>
-                  <TabsTrigger value="investment">Investment</TabsTrigger>
+                <TabsList className="mb-4 w-full overflow-x-auto flex flex-nowrap">
+                  <TabsTrigger value="all" className="flex-shrink-0">All</TabsTrigger>
+                  <TabsTrigger value="current" className="flex-shrink-0">Current</TabsTrigger>
+                  <TabsTrigger value="savings" className="flex-shrink-0">Savings</TabsTrigger>
+                  <TabsTrigger value="investment" className="flex-shrink-0">Investment</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value={activeTab} className="mt-0">
@@ -598,110 +598,160 @@ export default function BankingPage() {
                       filteredAccounts.map((account) => (
                         <div
                           key={account.id}
-                          className="flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
+                          className="flex flex-col gap-3 p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors sm:flex-row sm:items-center sm:gap-4"
                         >
-                          <div
-                            className={`h-12 w-12 rounded-lg ${account.color} flex items-center justify-center text-white font-bold text-sm`}
-                          >
-                            {account.bankLogo}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <h3 className="font-semibold truncate max-w-[120px] sm:max-w-none">
-                                {account.bankName}
-                              </h3>
-                              {account.isPrimary && (
-                                <Badge variant="secondary" className="text-xs">
-                                  Primary
-                                </Badge>
-                              )}
-                              {getStatusBadge(account.status)}
+                          {/* Top row on mobile: logo + name + dropdown */}
+                          <div className="flex items-center gap-3 sm:contents">
+                            <div
+                              className={`h-12 w-12 rounded-lg ${account.color} flex items-center justify-center text-white font-bold text-sm flex-shrink-0`}
+                            >
+                              {account.bankLogo}
                             </div>
-                            <div className="flex items-center gap-2 mt-1 flex-wrap">
-                              <p className="text-sm text-muted-foreground truncate max-w-[150px] sm:max-w-none">
-                                {account.accountName}
-                              </p>
-                              <span className="text-muted-foreground">•</span>
-                              <div className="flex items-center gap-1">
-                                <span className="text-sm text-muted-foreground font-mono">
-                                  {showBalances
-                                    ? account.accountNumber
-                                    : maskAccountNumber(account.accountNumber)}
+                            <div className="flex-1 min-w-0 sm:flex-1">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <h3 className="font-semibold truncate">
+                                  {account.bankName}
+                                </h3>
+                                {account.isPrimary && (
+                                  <Badge variant="secondary" className="text-xs">
+                                    Primary
+                                  </Badge>
+                                )}
+                                {getStatusBadge(account.status)}
+                              </div>
+                              <div className="flex items-center gap-1 mt-1 flex-wrap">
+                                <p className="text-sm text-muted-foreground truncate max-w-[160px] sm:max-w-none">
+                                  {account.accountName}
+                                </p>
+                                <span className="text-muted-foreground">•</span>
+                                <div className="flex items-center gap-1">
+                                  <span className="text-sm text-muted-foreground font-mono">
+                                    {showBalances
+                                      ? account.accountNumber
+                                      : maskAccountNumber(account.accountNumber)}
+                                  </span>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-6 w-6"
+                                    onClick={() =>
+                                      handleCopyAccount(account.accountNumber)
+                                    }
+                                  >
+                                    {copiedAccount === account.accountNumber ? (
+                                      <Check className="h-3 w-3 text-green-500" />
+                                    ) : (
+                                      <Copy className="h-3 w-3" />
+                                    )}
+                                  </Button>
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-2 mt-1 flex-wrap">
+                                {getAccountTypeIcon(account.accountType)}
+                                <span className="text-xs text-muted-foreground">
+                                  {getAccountTypeLabel(account.accountType)}
                                 </span>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-6 w-6"
-                                  onClick={() =>
-                                    handleCopyAccount(account.accountNumber)
-                                  }
-                                >
-                                  {copiedAccount === account.accountNumber ? (
-                                    <Check className="h-3 w-3 text-green-500" />
-                                  ) : (
-                                    <Copy className="h-3 w-3" />
-                                  )}
-                                </Button>
+                                <span className="text-muted-foreground">•</span>
+                                <span className="text-xs text-muted-foreground">
+                                  Synced: {account.lastSynced}
+                                </span>
                               </div>
                             </div>
-                            <div className="flex items-center gap-2 mt-1">
-                              {getAccountTypeIcon(account.accountType)}
-                              <span className="text-xs text-muted-foreground">
-                                {getAccountTypeLabel(account.accountType)}
-                              </span>
-                              <span className="text-muted-foreground">•</span>
-                              <span className="text-xs text-muted-foreground">
-                                Last synced: {account.lastSynced}
-                              </span>
+                            {/* Dropdown visible on mobile inline */}
+                            <div className="sm:hidden flex-shrink-0">
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button variant="ghost" size="icon">
+                                    <MoreVertical className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuItem>
+                                    <ExternalLink className="h-4 w-4 mr-2" />
+                                    View Details
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem>
+                                    <RefreshCw className="h-4 w-4 mr-2" />
+                                    Sync Account
+                                  </DropdownMenuItem>
+                                  {!account.isPrimary && (
+                                    <DropdownMenuItem
+                                      onClick={() => handleSetPrimary(account.id)}
+                                    >
+                                      <CheckCircle2 className="h-4 w-4 mr-2" />
+                                      Set as Primary
+                                    </DropdownMenuItem>
+                                  )}
+                                  <DropdownMenuItem>
+                                    <Pencil className="h-4 w-4 mr-2" />
+                                    Edit
+                                  </DropdownMenuItem>
+                                  <DropdownMenuSeparator />
+                                  <DropdownMenuItem
+                                    className="text-red-600"
+                                    onClick={() => setDeleteAccountId(account.id)}
+                                  >
+                                    <Trash2 className="h-4 w-4 mr-2" />
+                                    Remove
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
                             </div>
                           </div>
-                          <div className="text-right flex-shrink-0">
-                            <p className="font-bold">
-                              {showBalances
-                                ? formatCurrency(account.balance)
-                                : "****"}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {account.currency}
-                            </p>
+
+                          {/* Balance row on mobile */}
+                          <div className="flex items-center justify-between sm:contents">
+                            <div className="text-left sm:text-right flex-shrink-0">
+                              <p className="font-bold text-base">
+                                {showBalances
+                                  ? formatCurrency(account.balance)
+                                  : "****"}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                {account.currency}
+                              </p>
+                            </div>
+                            {/* Dropdown hidden on mobile (shown above), visible on sm+ */}
+                            <div className="hidden sm:block flex-shrink-0">
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button variant="ghost" size="icon">
+                                    <MoreVertical className="h-4 w-4" />
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                  <DropdownMenuItem>
+                                    <ExternalLink className="h-4 w-4 mr-2" />
+                                    View Details
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem>
+                                    <RefreshCw className="h-4 w-4 mr-2" />
+                                    Sync Account
+                                  </DropdownMenuItem>
+                                  {!account.isPrimary && (
+                                    <DropdownMenuItem
+                                      onClick={() => handleSetPrimary(account.id)}
+                                    >
+                                      <CheckCircle2 className="h-4 w-4 mr-2" />
+                                      Set as Primary
+                                    </DropdownMenuItem>
+                                  )}
+                                  <DropdownMenuItem>
+                                    <Pencil className="h-4 w-4 mr-2" />
+                                    Edit
+                                  </DropdownMenuItem>
+                                  <DropdownMenuSeparator />
+                                  <DropdownMenuItem
+                                    className="text-red-600"
+                                    onClick={() => setDeleteAccountId(account.id)}
+                                  >
+                                    <Trash2 className="h-4 w-4 mr-2" />
+                                    Remove
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            </div>
                           </div>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon">
-                                <MoreVertical className="h-4 w-4" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem>
-                                <ExternalLink className="h-4 w-4 mr-2" />
-                                View Details
-                              </DropdownMenuItem>
-                              <DropdownMenuItem>
-                                <RefreshCw className="h-4 w-4 mr-2" />
-                                Sync Account
-                              </DropdownMenuItem>
-                              {!account.isPrimary && (
-                                <DropdownMenuItem
-                                  onClick={() => handleSetPrimary(account.id)}
-                                >
-                                  <CheckCircle2 className="h-4 w-4 mr-2" />
-                                  Set as Primary
-                                </DropdownMenuItem>
-                              )}
-                              <DropdownMenuItem>
-                                <Pencil className="h-4 w-4 mr-2" />
-                                Edit
-                              </DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem
-                                className="text-red-600"
-                                onClick={() => setDeleteAccountId(account.id)}
-                              >
-                                <Trash2 className="h-4 w-4 mr-2" />
-                                Remove
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
                         </div>
                       ))
                     )}
