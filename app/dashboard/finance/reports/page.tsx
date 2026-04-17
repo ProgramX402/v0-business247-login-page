@@ -174,7 +174,13 @@ const expenseBreakdown = [
   { name: "Other", value: 5, amount: 500000 },
 ]
 
-const COLORS = ["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))", "hsl(var(--chart-4))", "hsl(var(--chart-5))"]
+const COLORS = [
+  "hsl(0, 84%, 60%)",
+  "hsl(25, 95%, 53%)",
+  "hsl(262, 83%, 58%)",
+  "hsl(199, 89%, 48%)",
+  "hsl(142, 71%, 45%)",
+]
 
 // Financial summary
 const financialSummary = {
@@ -565,17 +571,28 @@ export default function ReportsPage() {
                 </RechartsPieChart>
               </ResponsiveContainer>
             </div>
-            <div className="mt-4 space-y-2">
+            <div className="mt-4 space-y-3">
               {expenseBreakdown.map((item, index) => (
-                <div key={item.name} className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="h-3 w-3 rounded-full"
-                      style={{ backgroundColor: COLORS[index] }}
-                    />
-                    <span className="text-muted-foreground">{item.name}</span>
+                <div key={item.name} className="space-y-1">
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className="h-3 w-3 rounded-sm flex-shrink-0"
+                        style={{ backgroundColor: COLORS[index] }}
+                      />
+                      <span className="text-muted-foreground font-medium">{item.name}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-muted-foreground">{formatCompactCurrency(item.amount)}</span>
+                      <span className="font-semibold text-foreground w-8 text-right">{item.value}%</span>
+                    </div>
                   </div>
-                  <span className="font-medium">{item.value}%</span>
+                  <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                    <div
+                      className="h-full rounded-full transition-all"
+                      style={{ width: `${item.value}%`, backgroundColor: COLORS[index] }}
+                    />
+                  </div>
                 </div>
               ))}
             </div>
