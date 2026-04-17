@@ -1,17 +1,16 @@
-"use client"
-
-import { useState, useEffect, useRef } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+"use client";
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Eye,
   EyeOff,
@@ -21,7 +20,7 @@ import {
   Check,
   Upload,
   X,
-} from "lucide-react"
+} from "lucide-react";
 
 type Step = 1 | 2 | 3
 

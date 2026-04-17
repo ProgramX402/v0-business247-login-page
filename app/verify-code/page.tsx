@@ -1,8 +1,7 @@
-"use client"
-
-import { Suspense } from "react"
-import { VerifyCodeForm } from "@/components/verify-code-form"
-import { AuthLayout } from "@/components/auth-layout"
+"use client";
+import { Suspense } from "react";
+import { VerifyCodeForm } from "@/components/verify-code-form";
+import { AuthLayout } from "@/components/auth-layout";
 
 function VerifyCodeContent() {
   return <VerifyCodeForm />

@@ -1,9 +1,8 @@
-"use client"
-
-import { useState, useRef, useEffect } from "react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+"use client";
+import { useState, useRef, useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   MessageCircle,
   X,
@@ -13,7 +12,7 @@ import {
   Maximize2,
   Bot,
   User,
-} from "lucide-react"
+} from "lucide-react";
 
 interface Message {
   id: string

@@ -1,8 +1,7 @@
-"use client"
-
-import { Suspense } from "react"
-import { ResetPasswordForm } from "@/components/reset-password-form"
-import { AuthLayout } from "@/components/auth-layout"
+"use client";
+import { Suspense } from "react";
+import { ResetPasswordForm } from "@/components/reset-password-form";
+import { AuthLayout } from "@/components/auth-layout";
 
 function ResetPasswordContent() {
   return <ResetPasswordForm />

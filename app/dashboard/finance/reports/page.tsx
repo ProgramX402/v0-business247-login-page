@@ -1,40 +1,17 @@
-"use client"
+"use client";
+import { useState } from "react";
+import { FileText, Download, Calendar, TrendingUp, DollarSign, PieChart, BarChart3, FileSpreadsheet, FilePlus, Clock, CheckCircle, Loader2, Eye, MoreHorizontal, Filter, ArrowUpRight, Receipt, Wallet, CreditCard,  } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
-import { useState } from "react"
-import {
-  FileText,
-  Download,
-  Calendar,
-  TrendingUp,
-  TrendingDown,
-  DollarSign,
-  PieChart,
-  BarChart3,
-  FileSpreadsheet,
-  FilePlus,
-  Clock,
-  CheckCircle,
-  Loader2,
-  Eye,
-  MoreHorizontal,
-  Filter,
-  ArrowUpRight,
-  ArrowDownRight,
-  Receipt,
-  Wallet,
-  CreditCard,
-} from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -42,14 +19,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -58,29 +35,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
-import {
-  Bar,
-  BarChart,
-  Line,
-  LineChart,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-  Area,
-  AreaChart,
-  PieChart as RechartsPieChart,
-  Pie,
-  Cell,
-} from "recharts"
+} from "@/components/ui/chart";
+import { Bar, BarChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Area, AreaChart, PieChart as RechartsPieChart, Pie, Cell,  } from "recharts";
 
 // Report types
 const reportTypes = [

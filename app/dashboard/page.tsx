@@ -1,7 +1,6 @@
-"use client"
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+"use client";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   ArrowUpRight,
   ArrowDownRight,
@@ -12,8 +11,8 @@ import {
   TrendingUp,
   MoreHorizontal,
   ArrowRight,
-} from "lucide-react"
-import Link from "next/link"
+} from "lucide-react";
+import Link from "next/link";
 
 const stats = [
   {

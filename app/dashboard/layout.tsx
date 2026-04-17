@@ -1,9 +1,8 @@
-"use client"
-
-import { useState, useEffect } from "react"
-import { Sidebar } from "@/components/dashboard/sidebar"
-import { TopBar } from "@/components/dashboard/top-bar"
-import { AIChatWidget } from "@/components/dashboard/ai-chat-widget"
+"use client";
+import { useState, useEffect } from "react";
+import { Sidebar } from "@/components/dashboard/sidebar";
+import { TopBar } from "@/components/dashboard/top-bar";
+import { AIChatWidget } from "@/components/dashboard/ai-chat-widget";
 
 export default function DashboardLayout({
   children,

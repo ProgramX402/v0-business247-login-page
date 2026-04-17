@@ -1,12 +1,11 @@
-"use client"
-
-import { useState } from "react"
-import { useSearchParams } from "next/navigation"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ArrowLeft, Eye, EyeOff, Loader2, Check, CheckCircle2 } from "lucide-react"
+"use client";
+import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ArrowLeft, Eye, EyeOff, Loader2, Check, CheckCircle2 } from "lucide-react";
 
 export function ResetPasswordForm() {
   const searchParams = useSearchParams()

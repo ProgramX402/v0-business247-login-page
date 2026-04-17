@@ -1,34 +1,17 @@
-"use client"
-
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  Search,
-  Filter,
-  MoreHorizontal,
-  Plus,
-  Edit,
-  Trash2,
-  TrendingUp,
-  Store,
-  Eye,
-  AlertCircle,
-  CheckCircle2,
-  BarChart,
-  Users,
-  ShoppingBag,
-  Link2,
-} from "lucide-react"
-import { Input } from "@/components/ui/input"
+"use client";
+import { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Search, Filter, MoreHorizontal, Plus, Edit, Trash2, TrendingUp, Store, Eye, AlertCircle, CheckCircle2, BarChart, Users, ShoppingBag,  } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 // Mock sales channels data
 const mockChannels = [

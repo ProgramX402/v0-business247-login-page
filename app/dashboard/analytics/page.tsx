@@ -1,15 +1,14 @@
-"use client"
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+"use client";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   ChartContainer,
   ChartTooltip,
@@ -17,7 +16,7 @@ import {
   ChartLegend,
   ChartLegendContent,
   type ChartConfig,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 import {
   Area,
   AreaChart,
@@ -31,7 +30,7 @@ import {
   XAxis,
   YAxis,
   Cell,
-} from "recharts"
+} from "recharts";
 import {
   ArrowUpRight,
   ArrowDownRight,
@@ -45,7 +44,7 @@ import {
   Calendar,
   Target,
   Megaphone,
-} from "lucide-react"
+} from "lucide-react";
 
 // Revenue data for area chart
 const revenueData = [
