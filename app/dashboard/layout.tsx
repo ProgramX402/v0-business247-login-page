@@ -31,17 +31,17 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <Sidebar 
         collapsed={sidebarCollapsed} 
         onToggleCollapse={handleToggleSidebar}
         isMobile={isMobile}
       />
-      <div className={`transition-all duration-300 ${
+      <div className={`transition-all duration-300 min-w-0 overflow-x-hidden ${
         isMobile ? 'pl-0' : (sidebarCollapsed ? 'lg:pl-20' : 'lg:pl-64')
       }`}>
         <TopBar onToggleSidebar={handleToggleSidebar} />
-        <main className="p-4 sm:p-6">
+        <main className="p-4 sm:p-6 min-w-0">
           {children}
         </main>
       </div>

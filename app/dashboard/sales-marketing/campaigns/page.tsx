@@ -237,7 +237,7 @@ export default function CampaignsPage() {
       </div>
 
       {/* Stats Overview */}
-      <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-5">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
         <Card>
           <CardContent className="p-4">
             <div className="flex items-start justify-between">

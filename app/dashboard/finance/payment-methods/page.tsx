@@ -269,7 +269,7 @@ export default function PaymentMethodsPage() {
             Manage how you receive payments from customers
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <Dialog open={isPayoutSettingsOpen} onOpenChange={setIsPayoutSettingsOpen}>
             <DialogTrigger asChild>
               <Button variant="outline">
@@ -360,7 +360,7 @@ export default function PaymentMethodsPage() {
       </div>
 
       {/* Balance Cards */}
-      <div className="grid gap-4 md:grid-cols-4">
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Available Balance</CardTitle>

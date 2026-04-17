@@ -607,7 +607,7 @@ export default function BankingPage() {
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <h3 className="font-semibold truncate">
+                              <h3 className="font-semibold truncate max-w-[120px] sm:max-w-none">
                                 {account.bankName}
                               </h3>
                               {account.isPrimary && (
@@ -617,8 +617,8 @@ export default function BankingPage() {
                               )}
                               {getStatusBadge(account.status)}
                             </div>
-                            <div className="flex items-center gap-2 mt-1">
-                              <p className="text-sm text-muted-foreground">
+                            <div className="flex items-center gap-2 mt-1 flex-wrap">
+                              <p className="text-sm text-muted-foreground truncate max-w-[150px] sm:max-w-none">
                                 {account.accountName}
                               </p>
                               <span className="text-muted-foreground">•</span>
@@ -655,7 +655,7 @@ export default function BankingPage() {
                               </span>
                             </div>
                           </div>
-                          <div className="text-right">
+                          <div className="text-right flex-shrink-0">
                             <p className="font-bold">
                               {showBalances
                                 ? formatCurrency(account.balance)
@@ -732,11 +732,8 @@ export default function BankingPage() {
                     >
                       <div
                         className={`h-8 w-8 rounded-full flex items-center justify-center ${
-                          transaction.type === "credit"
-                            ? "bg-green-500/10 text-green-600"
-                            : transaction.type === "debit"
-                            ? "bg-red-500/10 text-red-600"
-                            : "bg-blue-500/10 text-blue-600"
+                          transaction.type === "credit" ?"bg-green-500/10 text-green-600"
+                            : transaction.type === "debit" ?"bg-red-500/10 text-red-600" :"bg-blue-500/10 text-blue-600"
                         }`}
                       >
                         {transaction.type === "credit" ? (
@@ -755,11 +752,8 @@ export default function BankingPage() {
                       </div>
                       <p
                         className={`text-sm font-semibold ${
-                          transaction.type === "credit"
-                            ? "text-green-600"
-                            : transaction.type === "debit"
-                            ? "text-red-600"
-                            : "text-blue-600"
+                          transaction.type === "credit" ?"text-green-600"
+                            : transaction.type === "debit" ?"text-red-600" :"text-blue-600"
                         }`}
                       >
                         {transaction.type === "credit" ? "+" : "-"}
