@@ -1,37 +1,17 @@
-"use client"
-
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  Search,
-  Filter,
-  MoreHorizontal,
-  Plus,
-  Edit,
-  Trash2,
-  Globe,
-  Eye,
-  AlertCircle,
-  CheckCircle2,
-  TrendingUp,
-  Users,
-  ShoppingCart,
-  RefreshCw,
-  Lock,
-  Zap,
-  Activity,
-  BarChart,
-} from "lucide-react"
-import { Input } from "@/components/ui/input"
+"use client";
+import { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Search, Filter, MoreHorizontal, Plus, Edit, Trash2, Globe, Eye, AlertCircle, CheckCircle2, TrendingUp, Users, RefreshCw, Activity, BarChart,  } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 // Mock websites data
 const mockWebsites = [
@@ -260,17 +240,17 @@ export default function WebsitesPage() {
         {/* Website Status Tabs */}
         <div className="px-3 sm:px-6 pb-4 border-b">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="w-full justify-start h-auto gap-2 bg-transparent p-0">
+            <TabsList className="w-full justify-start h-auto gap-2 bg-transparent p-0 overflow-x-auto flex-nowrap">
               <TabsTrigger
                 value="all"
-                className="data-[state=active]:bg-foreground data-[state=active]:text-background rounded-full px-4 py-2 text-sm font-medium"
+                className="data-[state=active]:bg-foreground data-[state=active]:text-background rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap"
               >
                 <span>All</span>
                 <span className="ml-2 text-xs opacity-70">({mockWebsites.length})</span>
               </TabsTrigger>
               <TabsTrigger
                 value="active"
-                className="data-[state=active]:bg-green-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium"
+                className="data-[state=active]:bg-green-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap"
               >
                 <CheckCircle2 className="h-4 w-4 mr-2" />
                 Active
@@ -278,7 +258,7 @@ export default function WebsitesPage() {
               </TabsTrigger>
               <TabsTrigger
                 value="maintenance"
-                className="data-[state=active]:bg-yellow-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium"
+                className="data-[state=active]:bg-yellow-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap"
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Maintenance
@@ -286,7 +266,7 @@ export default function WebsitesPage() {
               </TabsTrigger>
               <TabsTrigger
                 value="inactive"
-                className="data-[state=active]:bg-red-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium"
+                className="data-[state=active]:bg-red-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap"
               >
                 <AlertCircle className="h-4 w-4 mr-2" />
                 Inactive
@@ -359,18 +339,12 @@ export default function WebsitesPage() {
                       <td className="py-3 px-4">
                         <Badge
                           variant={
-                            website.status === "Active"
-                              ? "default"
-                              : website.status === "Maintenance"
-                                ? "secondary"
-                                : "outline"
+                            website.status === "Active" ?"default"
+                              : website.status === "Maintenance" ?"secondary" :"outline"
                           }
                           className={`text-xs ${
-                            website.status === "Active"
-                              ? "bg-green-600"
-                              : website.status === "Maintenance"
-                                ? "bg-yellow-600"
-                                : "bg-red-600"
+                            website.status === "Active" ?"bg-green-600"
+                              : website.status === "Maintenance" ?"bg-yellow-600" :"bg-red-600"
                           } text-white`}
                         >
                           {website.status}
@@ -431,18 +405,12 @@ export default function WebsitesPage() {
                     </div>
                     <Badge
                       variant={
-                        website.status === "Active"
-                          ? "default"
-                          : website.status === "Maintenance"
-                            ? "secondary"
-                            : "outline"
+                        website.status === "Active" ?"default"
+                          : website.status === "Maintenance" ?"secondary" :"outline"
                       }
                       className={`text-xs ${
-                        website.status === "Active"
-                          ? "bg-green-600"
-                          : website.status === "Maintenance"
-                            ? "bg-yellow-600"
-                            : "bg-red-600"
+                        website.status === "Active" ?"bg-green-600"
+                          : website.status === "Maintenance" ?"bg-yellow-600" :"bg-red-600"
                       } text-white`}
                     >
                       {website.status}

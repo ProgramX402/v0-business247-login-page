@@ -1,11 +1,10 @@
-"use client"
-
-import { useState, useRef, useEffect } from "react"
-import { useSearchParams } from "next/navigation"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ArrowLeft, ArrowRight, Loader2, RefreshCw } from "lucide-react"
+"use client";
+import { useState, useRef, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ArrowLeft, ArrowRight, Loader2, RefreshCw } from "lucide-react";
 
 export function VerifyCodeForm() {
   const searchParams = useSearchParams()

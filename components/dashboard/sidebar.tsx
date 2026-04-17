@@ -1,10 +1,9 @@
-"use client"
-
-import { useState } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { Logo } from "@/components/logo"
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Logo } from "@/components/logo";
 import {
   LayoutDashboard,
   ShoppingCart,
@@ -30,8 +29,8 @@ import {
   CheckSquare,
   PanelLeftClose,
   PanelLeft,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface SidebarProps {
   collapsed: boolean

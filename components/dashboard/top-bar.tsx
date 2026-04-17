@@ -1,9 +1,8 @@
-"use client"
-
-import { useState } from "react"
-import Link from "next/link"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Menu,
   MonitorSmartphone,
@@ -23,8 +22,8 @@ import {
   LogOut,
   HelpCircle,
   ChevronDown,
-} from "lucide-react"
-import { Input } from "@/components/ui/input"
+} from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 interface TopBarProps {
   onToggleSidebar: () => void

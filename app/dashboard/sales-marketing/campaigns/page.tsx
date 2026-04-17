@@ -1,10 +1,9 @@
-"use client"
-
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+"use client";
+import { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Search,
   Filter,
@@ -19,14 +18,14 @@ import {
   CheckCircle2,
   Clock,
   Zap,
-} from "lucide-react"
-import { Input } from "@/components/ui/input"
+} from "lucide-react";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 // Mock campaigns data
 const mockCampaigns = [
@@ -238,7 +237,7 @@ export default function CampaignsPage() {
       </div>
 
       {/* Stats Overview */}
-      <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-5">
+      <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
         <Card>
           <CardContent className="p-4">
             <div className="flex items-start justify-between">

@@ -1,36 +1,17 @@
-"use client"
-
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  Search,
-  Filter,
-  MoreHorizontal,
-  Plus,
-  Edit,
-  Trash2,
-  Briefcase,
-  AlertCircle,
-  CheckCircle2,
-  TrendingUp,
-  Users,
-  DollarSign,
-  Calendar,
-  Star,
-  Clock,
-  MapPin,
-  Eye,
-} from "lucide-react"
-import { Input } from "@/components/ui/input"
+"use client";
+import { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Search, Filter, MoreHorizontal, Plus, Edit, Trash2, Briefcase, AlertCircle, CheckCircle2, TrendingUp, Star, Eye,  } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 // Mock services data
 const mockServices = [
@@ -285,17 +266,17 @@ export default function ServicesPage() {
         {/* Service Status Tabs */}
         <div className="px-3 sm:px-6 pb-4 border-b">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="w-full justify-start h-auto gap-2 bg-transparent p-0 flex-wrap">
+            <TabsList className="w-full justify-start h-auto gap-2 bg-transparent p-0 overflow-x-auto flex-nowrap">
               <TabsTrigger
                 value="all"
-                className="data-[state=active]:bg-foreground data-[state=active]:text-background rounded-full px-4 py-2 text-sm font-medium"
+                className="data-[state=active]:bg-foreground data-[state=active]:text-background rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap"
               >
                 <span>All</span>
                 <span className="ml-2 text-xs opacity-70">({mockServices.length})</span>
               </TabsTrigger>
               <TabsTrigger
                 value="active"
-                className="data-[state=active]:bg-green-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium"
+                className="data-[state=active]:bg-green-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap"
               >
                 <CheckCircle2 className="h-4 w-4 mr-2" />
                 Active
@@ -303,7 +284,7 @@ export default function ServicesPage() {
               </TabsTrigger>
               <TabsTrigger
                 value="inactive"
-                className="data-[state=active]:bg-gray-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium"
+                className="data-[state=active]:bg-gray-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap"
               >
                 <AlertCircle className="h-4 w-4 mr-2" />
                 Inactive
@@ -311,7 +292,7 @@ export default function ServicesPage() {
               </TabsTrigger>
               <TabsTrigger
                 value="popular"
-                className="data-[state=active]:bg-amber-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium"
+                className="data-[state=active]:bg-amber-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap"
               >
                 <Star className="h-4 w-4 mr-2" />
                 Popular

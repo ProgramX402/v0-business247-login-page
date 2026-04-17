@@ -1,34 +1,17 @@
-"use client"
-
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  Search,
-  Filter,
-  MoreHorizontal,
-  Plus,
-  Edit,
-  Trash2,
-  TrendingUp,
-  Store,
-  Eye,
-  AlertCircle,
-  CheckCircle2,
-  BarChart,
-  Users,
-  ShoppingBag,
-  Link2,
-} from "lucide-react"
-import { Input } from "@/components/ui/input"
+"use client";
+import { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Search, Filter, MoreHorizontal, Plus, Edit, Trash2, TrendingUp, Store, Eye, AlertCircle, CheckCircle2, BarChart, Users, ShoppingBag,  } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 // Mock sales channels data
 const mockChannels = [
@@ -205,11 +188,8 @@ export default function SalesChannelsPage() {
         <Badge
           variant={channel.status === "Active" ? "default" : channel.status === "Pending" ? "secondary" : "outline"}
           className={
-            channel.status === "Active"
-              ? "bg-green-600 hover:bg-green-700"
-              : channel.status === "Pending"
-                ? "bg-yellow-600 hover:bg-yellow-700"
-                : ""
+            channel.status === "Active" ?"bg-green-600 hover:bg-green-700"
+              : channel.status === "Pending" ?"bg-yellow-600 hover:bg-yellow-700" :""
           }
         >
           {channel.status}
@@ -257,11 +237,8 @@ export default function SalesChannelsPage() {
           <Badge
             variant={channel.status === "Active" ? "default" : channel.status === "Pending" ? "secondary" : "outline"}
             className={
-              channel.status === "Active"
-                ? "bg-green-600 hover:bg-green-700"
-                : channel.status === "Pending"
-                  ? "bg-yellow-600 hover:bg-yellow-700"
-                  : ""
+              channel.status === "Active" ?"bg-green-600 hover:bg-green-700"
+                : channel.status === "Pending" ?"bg-yellow-600 hover:bg-yellow-700" :""
             }
           >
             {channel.status}
@@ -396,17 +373,17 @@ export default function SalesChannelsPage() {
         {/* Status Tabs */}
         <div className="px-3 sm:px-6 pb-4 border-b">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="w-full justify-start h-auto gap-2 bg-transparent p-0">
+            <TabsList className="w-full justify-start h-auto gap-2 bg-transparent p-0 overflow-x-auto flex-nowrap">
               <TabsTrigger
                 value="all"
-                className="data-[state=active]:bg-foreground data-[state=active]:text-background rounded-full px-4 py-2 text-sm font-medium"
+                className="data-[state=active]:bg-foreground data-[state=active]:text-background rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap"
               >
                 <span>All</span>
                 <span className="ml-2 text-xs opacity-70">({mockChannels.length})</span>
               </TabsTrigger>
               <TabsTrigger
                 value="active"
-                className="data-[state=active]:bg-green-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium"
+                className="data-[state=active]:bg-green-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap"
               >
                 <CheckCircle2 className="h-4 w-4 mr-2" />
                 Active
@@ -414,7 +391,7 @@ export default function SalesChannelsPage() {
               </TabsTrigger>
               <TabsTrigger
                 value="pending"
-                className="data-[state=active]:bg-yellow-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium"
+                className="data-[state=active]:bg-yellow-600 data-[state=active]:text-white rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap"
               >
                 <AlertCircle className="h-4 w-4 mr-2" />
                 Pending
@@ -427,7 +404,7 @@ export default function SalesChannelsPage() {
         <CardContent className="px-3 sm:px-6 pt-6">
           {/* Desktop View */}
           <div className="hidden sm:block overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full min-w-[600px]">
               <thead>
                 <tr className="border-b text-sm font-medium text-muted-foreground">
                   <th className="text-left py-3 px-3 sm:px-0">Channel</th>

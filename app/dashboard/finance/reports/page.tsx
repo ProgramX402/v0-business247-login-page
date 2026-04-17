@@ -1,40 +1,17 @@
-"use client"
+"use client";
+import { useState } from "react";
+import { FileText, Download, Calendar, TrendingUp, DollarSign, PieChart, BarChart3, FileSpreadsheet, FilePlus, Clock, CheckCircle, Loader2, Eye, MoreHorizontal, Filter, ArrowUpRight, Receipt, Wallet, CreditCard,  } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
-import { useState } from "react"
-import {
-  FileText,
-  Download,
-  Calendar,
-  TrendingUp,
-  TrendingDown,
-  DollarSign,
-  PieChart,
-  BarChart3,
-  FileSpreadsheet,
-  FilePlus,
-  Clock,
-  CheckCircle,
-  Loader2,
-  Eye,
-  MoreHorizontal,
-  Filter,
-  ArrowUpRight,
-  ArrowDownRight,
-  Receipt,
-  Wallet,
-  CreditCard,
-} from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -42,14 +19,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -58,29 +35,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
-import {
-  Bar,
-  BarChart,
-  Line,
-  LineChart,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-  Area,
-  AreaChart,
-  PieChart as RechartsPieChart,
-  Pie,
-  Cell,
-} from "recharts"
+} from "@/components/ui/chart";
+import { Bar, BarChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Area, AreaChart, PieChart as RechartsPieChart, Pie, Cell,  } from "recharts";
 
 // Report types
 const reportTypes = [
@@ -184,12 +147,12 @@ const generatedReports = [
 
 // Monthly revenue vs expenses data
 const revenueExpenseData = [
-  { month: "Jan", revenue: 4250000, expenses: 2850000 },
-  { month: "Feb", revenue: 3980000, expenses: 2650000 },
-  { month: "Mar", revenue: 5120000, expenses: 3100000 },
-  { month: "Apr", revenue: 4750000, expenses: 2900000 },
-  { month: "May", revenue: 5450000, expenses: 3250000 },
-  { month: "Jun", revenue: 6100000, expenses: 3500000 },
+  { month: "Jan", revenue: 4250000, salaries: 1282500, inventory: 712500, marketing: 427500, operations: 285000, other: 142500 },
+  { month: "Feb", revenue: 3980000, salaries: 1192500, inventory: 662500, marketing: 397500, operations: 265000, other: 132500 },
+  { month: "Mar", revenue: 5120000, salaries: 1395000, inventory: 775000, marketing: 465000, operations: 310000, other: 155000 },
+  { month: "Apr", revenue: 4750000, salaries: 1305000, inventory: 725000, marketing: 435000, operations: 290000, other: 145000 },
+  { month: "May", revenue: 5450000, salaries: 1462500, inventory: 812500, marketing: 487500, operations: 325000, other: 162500 },
+  { month: "Jun", revenue: 6100000, salaries: 1575000, inventory: 875000, marketing: 525000, operations: 350000, other: 175000 },
 ]
 
 // Profit trend data
@@ -211,7 +174,13 @@ const expenseBreakdown = [
   { name: "Other", value: 5, amount: 500000 },
 ]
 
-const COLORS = ["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3))", "hsl(var(--chart-4))", "hsl(var(--chart-5))"]
+const COLORS = [
+  "hsl(0, 84%, 60%)",
+  "hsl(25, 95%, 53%)",
+  "hsl(262, 83%, 58%)",
+  "hsl(199, 89%, 48%)",
+  "hsl(142, 71%, 45%)",
+]
 
 // Financial summary
 const financialSummary = {
@@ -458,33 +427,68 @@ export default function ReportsPage() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-base sm:text-lg">Revenue vs Expenses</CardTitle>
-            <CardDescription className="text-xs sm:text-sm">Monthly comparison of income and spending</CardDescription>
+            <CardDescription className="text-xs sm:text-sm">Monthly comparison of income and spending by category</CardDescription>
           </CardHeader>
           <CardContent className="px-2 sm:px-6">
             <ChartContainer
               config={{
-                revenue: { label: "Revenue", color: "hsl(var(--chart-1))" },
-                expenses: { label: "Expenses", color: "hsl(var(--chart-2))" },
+                revenue: { label: "Revenue", color: "hsl(142, 71%, 45%)" },
+                salaries: { label: "Salaries", color: "hsl(0, 84%, 60%)" },
+                inventory: { label: "Inventory", color: "hsl(25, 95%, 53%)" },
+                marketing: { label: "Marketing", color: "hsl(262, 83%, 58%)" },
+                operations: { label: "Operations", color: "hsl(199, 89%, 48%)" },
+                other: { label: "Other", color: "hsl(330, 81%, 60%)" },
               }}
               className="h-[250px] sm:h-[300px]"
             >
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={revenueExpenseData} barGap={8}>
+                <BarChart data={revenueExpenseData} barGap={4} barCategoryGap="30%">
                   <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                   <XAxis dataKey="month" className="text-xs" />
-                  <YAxis 
-                    className="text-xs" 
+                  <YAxis
+                    className="text-xs"
                     tickFormatter={(value) => formatCompactCurrency(value)}
                   />
-                  <ChartTooltip 
+                  <ChartTooltip
                     content={<ChartTooltipContent />}
                     formatter={(value: number) => formatCurrency(value)}
                   />
-                  <Bar dataKey="revenue" fill="hsl(var(--chart-1))" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="expenses" fill="hsl(var(--chart-2))" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="revenue" name="Revenue" fill="hsl(142, 71%, 45%)" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="salaries" name="Salaries" stackId="expenses" fill="hsl(0, 84%, 60%)" />
+                  <Bar dataKey="inventory" name="Inventory" stackId="expenses" fill="hsl(25, 95%, 53%)" />
+                  <Bar dataKey="marketing" name="Marketing" stackId="expenses" fill="hsl(262, 83%, 58%)" />
+                  <Bar dataKey="operations" name="Operations" stackId="expenses" fill="hsl(199, 89%, 48%)" />
+                  <Bar dataKey="other" name="Other" stackId="expenses" fill="hsl(330, 81%, 60%)" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
+            {/* Legend */}
+            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5">
+              <div className="flex items-center gap-1.5 text-xs">
+                <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: "hsl(142, 71%, 45%)" }} />
+                <span className="text-muted-foreground">Revenue</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs">
+                <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: "hsl(0, 84%, 60%)" }} />
+                <span className="text-muted-foreground">Salaries</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs">
+                <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: "hsl(25, 95%, 53%)" }} />
+                <span className="text-muted-foreground">Inventory</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs">
+                <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: "hsl(262, 83%, 58%)" }} />
+                <span className="text-muted-foreground">Marketing</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs">
+                <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: "hsl(199, 89%, 48%)" }} />
+                <span className="text-muted-foreground">Operations</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-xs">
+                <div className="h-3 w-3 rounded-sm" style={{ backgroundColor: "hsl(330, 81%, 60%)" }} />
+                <span className="text-muted-foreground">Other</span>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
@@ -567,17 +571,28 @@ export default function ReportsPage() {
                 </RechartsPieChart>
               </ResponsiveContainer>
             </div>
-            <div className="mt-4 space-y-2">
+            <div className="mt-4 space-y-3">
               {expenseBreakdown.map((item, index) => (
-                <div key={item.name} className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="h-3 w-3 rounded-full"
-                      style={{ backgroundColor: COLORS[index] }}
-                    />
-                    <span className="text-muted-foreground">{item.name}</span>
+                <div key={item.name} className="space-y-1">
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className="h-3 w-3 rounded-sm flex-shrink-0"
+                        style={{ backgroundColor: COLORS[index] }}
+                      />
+                      <span className="text-muted-foreground font-medium">{item.name}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-muted-foreground">{formatCompactCurrency(item.amount)}</span>
+                      <span className="font-semibold text-foreground w-8 text-right">{item.value}%</span>
+                    </div>
                   </div>
-                  <span className="font-medium">{item.value}%</span>
+                  <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                    <div
+                      className="h-full rounded-full transition-all"
+                      style={{ width: `${item.value}%`, backgroundColor: COLORS[index] }}
+                    />
+                  </div>
                 </div>
               ))}
             </div>

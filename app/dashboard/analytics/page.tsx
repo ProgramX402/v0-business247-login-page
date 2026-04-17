@@ -1,15 +1,14 @@
-"use client"
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+"use client";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   ChartContainer,
   ChartTooltip,
@@ -17,7 +16,7 @@ import {
   ChartLegend,
   ChartLegendContent,
   type ChartConfig,
-} from "@/components/ui/chart"
+} from "@/components/ui/chart";
 import {
   Area,
   AreaChart,
@@ -31,7 +30,7 @@ import {
   XAxis,
   YAxis,
   Cell,
-} from "recharts"
+} from "recharts";
 import {
   ArrowUpRight,
   ArrowDownRight,
@@ -45,7 +44,7 @@ import {
   Calendar,
   Target,
   Megaphone,
-} from "lucide-react"
+} from "lucide-react";
 
 // Revenue data for area chart
 const revenueData = [
@@ -280,9 +279,9 @@ export default function AnalyticsPage() {
           <CardTitle>Revenue Overview</CardTitle>
           <CardDescription>Monthly revenue and order trends for the year</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="overflow-hidden">
           <ChartContainer config={revenueChartConfig} className="h-[300px] sm:h-[350px] w-full">
-            <AreaChart data={revenueData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+            <AreaChart data={revenueData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
               <defs>
                 <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="var(--color-revenue)" stopOpacity={0.8} />
@@ -335,9 +334,9 @@ export default function AnalyticsPage() {
             <CardTitle>Customer Acquisition</CardTitle>
             <CardDescription>New vs returning customers over time</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="overflow-hidden">
             <ChartContainer config={customerChartConfig} className="h-[280px] w-full">
-              <BarChart data={customerData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <BarChart data={customerData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />
                 <YAxis tickLine={false} axisLine={false} tickMargin={8} />
@@ -356,7 +355,7 @@ export default function AnalyticsPage() {
             <CardTitle>Traffic Sources</CardTitle>
             <CardDescription>Where your visitors come from</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="overflow-hidden">
             <ChartContainer config={trafficChartConfig} className="h-[280px] w-full">
               <PieChart>
                 <ChartTooltip content={<ChartTooltipContent hideLabel />} />
@@ -392,7 +391,7 @@ export default function AnalyticsPage() {
             <CardTitle>Sales by Category</CardTitle>
             <CardDescription>Revenue breakdown by product category</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="overflow-hidden">
             <ChartContainer config={categoryChartConfig} className="h-[280px] w-full">
               <BarChart
                 data={categoryData}
@@ -406,7 +405,7 @@ export default function AnalyticsPage() {
                   type="category"
                   tickLine={false}
                   axisLine={false}
-                  width={100}
+                  width={80}
                 />
                 <ChartTooltip
                   content={
@@ -427,9 +426,9 @@ export default function AnalyticsPage() {
             <CardTitle>This Week</CardTitle>
             <CardDescription>Daily sales performance</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="overflow-hidden">
             <ChartContainer config={dailySalesChartConfig} className="h-[280px] w-full">
-              <LineChart data={dailySalesData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <LineChart data={dailySalesData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="day" tickLine={false} axisLine={false} tickMargin={8} />
                 <YAxis tickLine={false} axisLine={false} tickMargin={8} tickFormatter={formatCurrency} />

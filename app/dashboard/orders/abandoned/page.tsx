@@ -1,9 +1,8 @@
-"use client"
+"use client";
+import { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import {
   AlertCircle,
   Search,
@@ -16,14 +15,14 @@ import {
   ShoppingCart,
   TrendingDown,
   Package,
-} from "lucide-react"
-import { Input } from "@/components/ui/input"
+} from "lucide-react";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 // Mock data for abandoned orders
 const mockAbandonedOrders = [

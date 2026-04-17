@@ -1,11 +1,10 @@
-"use client"
-
-import { useState } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ArrowLeft, ArrowRight, Loader2, Mail, CheckCircle2 } from "lucide-react"
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ArrowLeft, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 
 export function ForgotPasswordForm() {
   const [isLoading, setIsLoading] = useState(false)
