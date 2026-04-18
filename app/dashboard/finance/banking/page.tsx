@@ -562,7 +562,7 @@ export default function BankingPage() {
       </div>
 
       {/* Accounts List */}
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-6 lg:grid-cols-3 overflow-hidden">
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
@@ -684,14 +684,14 @@ export default function BankingPage() {
                           </div>
 
                           {/* Bottom row: account type + balance */}
-                          <div className="flex items-center justify-between pt-2 border-t">
-                            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                          <div className="flex items-center justify-between pt-2 border-t gap-2 overflow-hidden">
+                            <div className="flex items-center gap-1.5 text-xs text-muted-foreground min-w-0 flex-1 flex-wrap">
                               {getAccountTypeIcon(account.accountType)}
-                              <span>{getAccountTypeLabel(account.accountType)}</span>
-                              <span>•</span>
-                              <span>Synced: {account.lastSynced}</span>
+                              <span className="shrink-0">{getAccountTypeLabel(account.accountType)}</span>
+                              <span className="shrink-0">•</span>
+                              <span className="truncate">Synced: {account.lastSynced}</span>
                             </div>
-                            <div className="text-right">
+                            <div className="text-right flex-shrink-0">
                               <p className="font-bold text-base">
                                 {showBalances
                                   ? formatCurrency(account.balance)
@@ -728,7 +728,7 @@ export default function BankingPage() {
                   return (
                     <div
                       key={transaction.id}
-                      className="flex items-start gap-3 pb-4 border-b last:border-0 last:pb-0"
+                      className="flex items-start gap-3 pb-4 border-b last:border-0 last:pb-0 overflow-hidden"
                     >
                       <div
                         className={`h-8 w-8 rounded-full flex items-center justify-center ${
@@ -742,7 +742,7 @@ export default function BankingPage() {
                           <ArrowUpRight className="h-4 w-4" />
                         )}
                       </div>
-                      <div className="flex-1 min-w-0">
+                      <div className="flex-1 min-w-0 overflow-hidden">
                         <p className="text-sm font-medium truncate">
                           {transaction.description}
                         </p>
@@ -751,7 +751,7 @@ export default function BankingPage() {
                         </p>
                       </div>
                       <p
-                        className={`text-sm font-semibold ${
+                        className={`text-sm font-semibold flex-shrink-0 ${
                           transaction.type === "credit" ?"text-green-600"
                             : transaction.type === "debit" ?"text-red-600" :"text-blue-600"
                         }`}
