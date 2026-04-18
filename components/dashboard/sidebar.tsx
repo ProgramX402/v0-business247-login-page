@@ -80,6 +80,7 @@ const navigation: NavItem[] = [
       { name: "Reports", href: "/dashboard/finance/reports" },
       { name: "Budgets", href: "/dashboard/finance/budgets" },
       { name: "Debts", href: "/dashboard/finance/debts" },
+      { name: "Tax", href: "/dashboard/finance/tax" },
       { name: "Tasks", href: "/dashboard/finance/tasks" },
     ],
   },
@@ -101,6 +102,7 @@ const getIconForChild = (name: string) => {
     Reports: FileText,
     Budgets: PiggyBank,
     Debts: AlertCircle,
+    Tax: Receipt,
     Tasks: CheckSquare,
   }
   return icons[name] || FileText
@@ -189,8 +191,7 @@ export function Sidebar({ collapsed, onToggleCollapse, isMobile = false }: Sideb
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                         isParentActive(item.children)
-                          ? "bg-primary/10 text-primary"
-                          : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                          ? "bg-primary/10 text-primary" :"text-muted-foreground hover:bg-accent hover:text-foreground",
                         collapsed && "justify-center px-2"
                       )}
                     >
@@ -217,8 +218,7 @@ export function Sidebar({ collapsed, onToggleCollapse, isMobile = false }: Sideb
                                 className={cn(
                                   "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
                                   isActive(child.href)
-                                    ? "bg-primary/10 text-primary font-medium"
-                                    : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                                    ? "bg-primary/10 text-primary font-medium" :"text-muted-foreground hover:bg-accent hover:text-foreground"
                                 )}
                               >
                                 <ChildIcon className="h-4 w-4 flex-shrink-0" />
@@ -236,8 +236,7 @@ export function Sidebar({ collapsed, onToggleCollapse, isMobile = false }: Sideb
                     className={cn(
                       "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                       isActive(item.href)
-                        ? "bg-primary/10 text-primary"
-                        : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                        ? "bg-primary/10 text-primary" :"text-muted-foreground hover:bg-accent hover:text-foreground",
                       collapsed && "justify-center px-2"
                     )}
                   >
