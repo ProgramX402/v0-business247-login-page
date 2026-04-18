@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Poppins } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
-import Script from 'next/script';
 
 import './globals.css'
 
@@ -46,7 +45,7 @@ export default function RootLayout({
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
 
-        <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fv0busines4082back.builtwithrocket.new&_be=https%3A%2F%2Fappanalytics.rocket.new&_v=0.1.18" />
+        <script type="module" async src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fv0busines8383back.builtwithrocket.new&_be=https%3A%2F%2Fappanalytics.rocket.new&_v=0.1.18" />
         <script type="module" defer src="https://static.rocket.new/rocket-shot.js?v=0.0.2" /></body>
     </html>
   )
