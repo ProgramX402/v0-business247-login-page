@@ -30,7 +30,7 @@ export default function DashboardLayout({
     setSidebarCollapsed(!sidebarCollapsed)
   }
 
-  return (
+ return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <Sidebar 
         collapsed={sidebarCollapsed} 
@@ -40,8 +40,12 @@ export default function DashboardLayout({
       <div className={`transition-all duration-300 min-w-0 overflow-x-hidden ${
         isMobile ? 'pl-0' : (sidebarCollapsed ? 'lg:pl-20' : 'lg:pl-64')
       }`}>
-        <TopBar onToggleSidebar={handleToggleSidebar} />
-        <main className="p-4 sm:p-6 min-w-0">
+        <div className={`fixed top-0 right-0 z-30 transition-all duration-300 ${
+          isMobile ? 'left-0' : (sidebarCollapsed ? 'lg:left-20' : 'lg:left-64')
+        }`}>
+          <TopBar onToggleSidebar={handleToggleSidebar} />
+        </div>
+        <main className="p-4 sm:p-6 min-w-0 pt-20 sm:pt-22">
           {children}
         </main>
       </div>
