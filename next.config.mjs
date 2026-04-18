@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  allowedDevOrigins: ['v0busines4082.builtwithrocket.new'],
+  allowedDevOrigins: ['v0busines4082.builtwithrocket.new', 'v0busines8383.builtwithrocket.new'],
   typescript: {
     ignoreBuildErrors: true,
   },
