@@ -25,42 +25,59 @@ import {
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
+import {
+  BarChart, Bar, XAxis, YAxis, ResponsiveContainer,
+  PieChart, Pie, Cell, TooltipProps,
+} from "recharts";
+
+// ── Colour palette — one colour per category, shared everywhere ───────────────
+
+const CATEGORY_COLORS: Record<string, string> = {
+  Operations:     "hsl(199, 89%, 48%)",
+  Utilities:      "hsl(262, 83%, 58%)",
+  Transportation: "hsl(25,  95%, 53%)",
+  Marketing:      "hsl(330, 81%, 60%)",
+  Personnel:      "hsl(142, 71%, 45%)",
+  Maintenance:    "hsl(0,   84%, 60%)",
+  Rent:           "hsl(45,  93%, 47%)",
+  Software:       "hsl(220, 70%, 56%)",
+};
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 
 const expenses = [
-  { id: "EXP-001", description: "Office Supplies",             category: "Operations",    vendor: "Staples Nigeria",       amount:  45000, date: "2024-01-15", status: "approved",  receipt: true  },
-  { id: "EXP-002", description: "Monthly Internet Bill",       category: "Utilities",     vendor: "MTN Business",          amount:  75000, date: "2024-01-14", status: "approved",  receipt: true  },
-  { id: "EXP-003", description: "Delivery Vehicle Fuel",       category: "Transportation",vendor: "NNPC Filling Station",  amount: 120000, date: "2024-01-13", status: "pending",   receipt: true  },
-  { id: "EXP-004", description: "Facebook Ads Campaign",       category: "Marketing",     vendor: "Meta Platforms",        amount: 250000, date: "2024-01-12", status: "approved",  receipt: true  },
-  { id: "EXP-005", description: "Staff Training Workshop",     category: "Personnel",     vendor: "Business Academy NG",   amount: 180000, date: "2024-01-11", status: "approved",  receipt: false },
-  { id: "EXP-006", description: "Equipment Maintenance",       category: "Maintenance",   vendor: "TechFix Services",      amount:  95000, date: "2024-01-10", status: "rejected",  receipt: true  },
-  { id: "EXP-007", description: "Office Rent - January",       category: "Rent",          vendor: "Lagos Properties Ltd",  amount: 500000, date: "2024-01-01", status: "approved",  receipt: true  },
-  { id: "EXP-008", description: "Google Workspace Sub",        category: "Software",      vendor: "Google LLC",            amount:  35000, date: "2024-01-09", status: "approved",  receipt: true  },
-  { id: "EXP-009", description: "Packaging Materials",         category: "Operations",    vendor: "PackRight NG",          amount:  88000, date: "2024-01-08", status: "pending",   receipt: true  },
-  { id: "EXP-010", description: "Team Lunch Meeting",          category: "Personnel",     vendor: "The Place Restaurant",  amount:  65000, date: "2024-01-07", status: "approved",  receipt: true  },
+  { id: "EXP-001", description: "Office Supplies",         category: "Operations",     vendor: "Staples Nigeria",      amount:  45000, date: "2024-01-15", status: "approved",  receipt: true  },
+  { id: "EXP-002", description: "Monthly Internet Bill",   category: "Utilities",      vendor: "MTN Business",         amount:  75000, date: "2024-01-14", status: "approved",  receipt: true  },
+  { id: "EXP-003", description: "Delivery Vehicle Fuel",   category: "Transportation", vendor: "NNPC Filling Station", amount: 120000, date: "2024-01-13", status: "pending",   receipt: true  },
+  { id: "EXP-004", description: "Facebook Ads Campaign",   category: "Marketing",      vendor: "Meta Platforms",       amount: 250000, date: "2024-01-12", status: "approved",  receipt: true  },
+  { id: "EXP-005", description: "Staff Training Workshop", category: "Personnel",      vendor: "Business Academy NG",  amount: 180000, date: "2024-01-11", status: "approved",  receipt: false },
+  { id: "EXP-006", description: "Equipment Maintenance",   category: "Maintenance",    vendor: "TechFix Services",     amount:  95000, date: "2024-01-10", status: "rejected",  receipt: true  },
+  { id: "EXP-007", description: "Office Rent - January",   category: "Rent",           vendor: "Lagos Properties Ltd", amount: 500000, date: "2024-01-01", status: "approved",  receipt: true  },
+  { id: "EXP-008", description: "Google Workspace Sub",    category: "Software",       vendor: "Google LLC",           amount:  35000, date: "2024-01-09", status: "approved",  receipt: true  },
+  { id: "EXP-009", description: "Packaging Materials",     category: "Operations",     vendor: "PackRight NG",         amount:  88000, date: "2024-01-08", status: "pending",   receipt: true  },
+  { id: "EXP-010", description: "Team Lunch Meeting",      category: "Personnel",      vendor: "The Place Restaurant", amount:  65000, date: "2024-01-07", status: "approved",  receipt: true  },
 ];
 
+// Each bar has its own category so they each get a distinct colour
 const monthlyExpenses = [
-  { month: "Aug", amount: 1200000 },
-  { month: "Sep", amount:  980000 },
-  { month: "Oct", amount: 1450000 },
-  { month: "Nov", amount: 1100000 },
-  { month: "Dec", amount: 1680000 },
-  { month: "Jan", amount: 1453000 },
+  { month: "Aug", amount: 1200000, category: "Operations"     },
+  { month: "Sep", amount:  980000, category: "Personnel"      },
+  { month: "Oct", amount: 1450000, category: "Marketing"      },
+  { month: "Nov", amount: 1100000, category: "Rent"           },
+  { month: "Dec", amount: 1680000, category: "Transportation" },
+  { month: "Jan", amount: 1453000, category: "Utilities"      },
 ];
 
 const categoryBreakdown = [
-  { name: "Operations",     value: 133000, color: "hsl(var(--chart-1))"        },
-  { name: "Utilities",      value:  75000, color: "hsl(var(--chart-2))"        },
-  { name: "Transportation", value: 120000, color: "hsl(var(--chart-3))"        },
-  { name: "Marketing",      value: 250000, color: "hsl(var(--chart-4))"        },
-  { name: "Personnel",      value: 245000, color: "hsl(var(--chart-5))"        },
-  { name: "Rent",           value: 500000, color: "hsl(var(--primary))"        },
-  { name: "Software",       value:  35000, color: "hsl(var(--muted-foreground))"},
-  { name: "Maintenance",    value:  95000, color: "hsl(var(--destructive))"    },
+  { name: "Operations",     value: 133000 },
+  { name: "Utilities",      value:  75000 },
+  { name: "Transportation", value: 120000 },
+  { name: "Marketing",      value: 250000 },
+  { name: "Personnel",      value: 245000 },
+  { name: "Rent",           value: 500000 },
+  { name: "Software",       value:  35000 },
+  { name: "Maintenance",    value:  95000 },
 ];
 
 const chartConfig = { amount: { label: "Amount", color: "hsl(var(--primary))" } };
@@ -95,6 +112,39 @@ function StatusBadge({ status }: { status: string }) {
   return <Badge variant="outline">{status}</Badge>;
 }
 
+// Custom bar shape — reads `category` from the data point to pick the colour
+function ColoredBar(props: {
+  x?: number; y?: number; width?: number; height?: number; category?: string;
+}) {
+  const { x = 0, y = 0, width = 0, height = 0, category = "" } = props;
+  if (!height || height <= 0) return null;
+  const fill = CATEGORY_COLORS[category] ?? "hsl(var(--primary))";
+  const r = Math.min(4, width / 2);
+  return (
+    <path
+      d={`M${x},${y + r} Q${x},${y} ${x + r},${y} L${x + width - r},${y} Q${x + width},${y} ${x + width},${y + r} L${x + width},${y + height} L${x},${y + height} Z`}
+      fill={fill}
+    />
+  );
+}
+
+// Custom tooltip for the bar chart
+function BarTooltipContent({ active, payload }: TooltipProps<number, string>) {
+  if (!active || !payload?.length) return null;
+  const d = payload[0].payload as { month: string; amount: number; category: string };
+  const color = CATEGORY_COLORS[d.category] ?? "hsl(var(--primary))";
+  return (
+    <div className="rounded-lg border border-border bg-popover px-3 py-2 shadow-md text-xs space-y-1">
+      <p className="font-semibold text-foreground">{d.month}</p>
+      <div className="flex items-center gap-2">
+        <div className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: color }} />
+        <span className="text-muted-foreground">{d.category}</span>
+      </div>
+      <p className="font-medium tabular-nums">{fmt(d.amount)}</p>
+    </div>
+  );
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function ExpensesPage() {
@@ -114,15 +164,15 @@ export default function ExpensesPage() {
     );
   });
 
-  const totalPages   = Math.ceil(filtered.length / PER_PAGE);
-  const start        = (page - 1) * PER_PAGE;
-  const paginated    = filtered.slice(start, start + PER_PAGE);
+  const totalPages = Math.ceil(filtered.length / PER_PAGE);
+  const start      = (page - 1) * PER_PAGE;
+  const paginated  = filtered.slice(start, start + PER_PAGE);
 
-  const totalAmt     = expenses.reduce((s, e) => s + e.amount, 0);
-  const approvedAmt  = expenses.filter((e) => e.status === "approved").reduce((s, e) => s + e.amount, 0);
-  const pendingAmt   = expenses.filter((e) => e.status === "pending").reduce((s, e) => s + e.amount, 0);
-  const approvedCnt  = expenses.filter((e) => e.status === "approved").length;
-  const pendingCnt   = expenses.filter((e) => e.status === "pending").length;
+  const totalAmt    = expenses.reduce((s, e) => s + e.amount, 0);
+  const approvedAmt = expenses.filter((e) => e.status === "approved").reduce((s, e) => s + e.amount, 0);
+  const pendingAmt  = expenses.filter((e) => e.status === "pending").reduce((s, e) => s + e.amount, 0);
+  const approvedCnt = expenses.filter((e) => e.status === "approved").length;
+  const pendingCnt  = expenses.filter((e) => e.status === "pending").length;
 
   return (
     <div className="w-full max-w-[1400px] mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6">
@@ -135,15 +185,12 @@ export default function ExpensesPage() {
         </div>
         <div className="flex gap-2 sm:shrink-0">
           <Button variant="outline" size="sm" className="h-9 text-xs sm:text-sm flex-1 sm:flex-none">
-            <Download className="mr-1.5 h-3.5 w-3.5" />
-            Export
+            <Download className="mr-1.5 h-3.5 w-3.5" />Export
           </Button>
-
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
               <Button size="sm" className="h-9 text-xs sm:text-sm flex-1 sm:flex-none">
-                <Plus className="mr-1.5 h-3.5 w-3.5" />
-                Add Expense
+                <Plus className="mr-1.5 h-3.5 w-3.5" />Add Expense
               </Button>
             </DialogTrigger>
             <DialogContent className="w-[calc(100vw-2rem)] max-w-md rounded-xl">
@@ -162,7 +209,7 @@ export default function ExpensesPage() {
                     <Select>
                       <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
                       <SelectContent>
-                        {["Operations","Utilities","Transportation","Marketing","Personnel","Maintenance","Rent","Software"].map((c) => (
+                        {Object.keys(CATEGORY_COLORS).map((c) => (
                           <SelectItem key={c} value={c.toLowerCase()}>{c}</SelectItem>
                         ))}
                       </SelectContent>
@@ -199,7 +246,6 @@ export default function ExpensesPage() {
 
       {/* ── Stats Cards ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {/* Total */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-1 pt-4 px-4">
             <CardTitle className="text-[11px] sm:text-sm font-medium text-muted-foreground">Total Expenses</CardTitle>
@@ -214,8 +260,6 @@ export default function ExpensesPage() {
             </div>
           </CardContent>
         </Card>
-
-        {/* Approved */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-1 pt-4 px-4">
             <CardTitle className="text-[11px] sm:text-sm font-medium text-muted-foreground">Approved</CardTitle>
@@ -226,8 +270,6 @@ export default function ExpensesPage() {
             <div className="text-[10px] sm:text-xs text-muted-foreground mt-1">{approvedCnt} expenses</div>
           </CardContent>
         </Card>
-
-        {/* Pending */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-1 pt-4 px-4">
             <CardTitle className="text-[11px] sm:text-sm font-medium text-muted-foreground">Pending</CardTitle>
@@ -238,8 +280,6 @@ export default function ExpensesPage() {
             <div className="text-[10px] sm:text-xs text-muted-foreground mt-1">{pendingCnt} awaiting review</div>
           </CardContent>
         </Card>
-
-        {/* Budget */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-1 pt-4 px-4">
             <CardTitle className="text-[11px] sm:text-sm font-medium text-muted-foreground">Budget Used</CardTitle>
@@ -257,7 +297,7 @@ export default function ExpensesPage() {
       {/* ── Charts ── */}
       <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
 
-        {/* Bar chart */}
+        {/* Monthly bar chart — each bar coloured by its category */}
         <Card className="min-w-0">
           <CardHeader className="px-4 sm:px-6 pb-1">
             <CardTitle className="text-sm sm:text-base">Monthly Expenses</CardTitle>
@@ -269,31 +309,56 @@ export default function ExpensesPage() {
                 <BarChart data={monthlyExpenses} margin={{ left: 0, right: 4, top: 4, bottom: 0 }}>
                   <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 11 }} />
                   <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10 }} tickFormatter={fmtCompact} width={52} />
-                  <ChartTooltip content={<ChartTooltipContent formatter={(v) => fmt(v as number)} />} />
-                  <Bar dataKey="amount" fill="hsl(var(--primary))" radius={[4,4,0,0]} />
+                  <ChartTooltip content={<BarTooltipContent />} />
+                  {/* shape prop renders our custom coloured bar per data point */}
+                  <Bar dataKey="amount" shape={<ColoredBar />} />
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
+            {/* Per-bar legend */}
+            <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1.5 px-1">
+              {monthlyExpenses.map((d) => (
+                <div key={d.month} className="flex items-center gap-1.5">
+                  <div className="h-2.5 w-2.5 rounded-sm shrink-0" style={{ backgroundColor: CATEGORY_COLORS[d.category] }} />
+                  <span className="text-[10px] sm:text-xs text-muted-foreground">{d.month} · {d.category}</span>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
 
-        {/* Pie chart */}
+        {/* Pie chart — same colours */}
         <Card className="min-w-0">
           <CardHeader className="px-4 sm:px-6 pb-1">
             <CardTitle className="text-sm sm:text-base">Expenses by Category</CardTitle>
             <CardDescription className="text-xs">Breakdown of expenses this month</CardDescription>
           </CardHeader>
           <CardContent className="px-4 sm:px-6 pb-4">
-            {/* Stacks on very small screens, side-by-side on sm+ */}
             <div className="flex flex-col xs:flex-row items-center gap-3 sm:gap-4">
               <div className="w-full xs:w-auto shrink-0">
                 <ChartContainer config={chartConfig} className="h-44 w-full xs:h-[180px] xs:w-[180px]">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie data={categoryBreakdown} cx="50%" cy="50%" innerRadius="38%" outerRadius="62%" paddingAngle={2} dataKey="value">
-                        {categoryBreakdown.map((e, i) => <Cell key={i} fill={e.color} />)}
+                        {categoryBreakdown.map((e) => (
+                          <Cell key={e.name} fill={CATEGORY_COLORS[e.name] ?? "hsl(var(--muted-foreground))"} />
+                        ))}
                       </Pie>
-                      <ChartTooltip content={<ChartTooltipContent formatter={(v) => fmt(v as number)} />} />
+                      <ChartTooltip
+                        content={({ active, payload }) => {
+                          if (!active || !payload?.length) return null;
+                          const d = payload[0].payload as { name: string; value: number };
+                          return (
+                            <div className="rounded-lg border border-border bg-popover px-3 py-2 shadow-md text-xs space-y-1">
+                              <div className="flex items-center gap-2">
+                                <div className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: CATEGORY_COLORS[d.name] }} />
+                                <span className="font-semibold">{d.name}</span>
+                              </div>
+                              <p className="tabular-nums">{fmt(d.value)}</p>
+                            </div>
+                          );
+                        }}
+                      />
                     </PieChart>
                   </ResponsiveContainer>
                 </ChartContainer>
@@ -302,7 +367,7 @@ export default function ExpensesPage() {
                 {categoryBreakdown.slice(0, 6).map((cat) => (
                   <div key={cat.name} className="flex items-center justify-between gap-2 text-xs">
                     <div className="flex items-center gap-1.5 min-w-0">
-                      <div className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: cat.color }} />
+                      <div className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: CATEGORY_COLORS[cat.name] ?? "hsl(var(--muted-foreground))" }} />
                       <span className="text-muted-foreground truncate">{cat.name}</span>
                     </div>
                     <span className="font-medium tabular-nums shrink-0">{fmtCompact(cat.value)}</span>
@@ -321,8 +386,6 @@ export default function ExpensesPage() {
           <CardDescription className="text-xs">View and manage all expense entries</CardDescription>
         </CardHeader>
         <CardContent className="px-3 sm:px-6">
-
-          {/* Filters — search full-width on mobile, inline on sm+ */}
           <div className="mb-4 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
             <div className="relative w-full sm:max-w-xs">
               <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
@@ -333,7 +396,6 @@ export default function ExpensesPage() {
                 className="pl-9 h-9 text-sm"
               />
             </div>
-            {/* Filter selects — scroll horizontally on tiny screens */}
             <div className="flex gap-2 overflow-x-auto pb-0.5 shrink-0 scrollbar-none">
               <Select value={categoryFilter} onValueChange={(v) => { setCategory(v); setPage(1); }}>
                 <SelectTrigger className="w-36 h-9 text-xs shrink-0">
@@ -342,12 +404,16 @@ export default function ExpensesPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Categories</SelectItem>
-                  {["Operations","Utilities","Transportation","Marketing","Personnel","Maintenance","Rent","Software"].map((c) => (
-                    <SelectItem key={c} value={c}>{c}</SelectItem>
+                  {Object.keys(CATEGORY_COLORS).map((c) => (
+                    <SelectItem key={c} value={c}>
+                      <div className="flex items-center gap-2">
+                        <div className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: CATEGORY_COLORS[c] }} />
+                        {c}
+                      </div>
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
-
               <Select value={statusFilter} onValueChange={(v) => { setStatus(v); setPage(1); }}>
                 <SelectTrigger className="w-32 h-9 text-xs shrink-0">
                   <SelectValue placeholder="Status" />
@@ -388,7 +454,8 @@ export default function ExpensesPage() {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-1.5 text-sm">
+                      <div className="flex items-center gap-2 text-sm">
+                        <div className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: CATEGORY_COLORS[e.category] }} />
                         <CategoryIcon category={e.category} />
                         {e.category}
                       </div>
@@ -423,7 +490,6 @@ export default function ExpensesPage() {
           <div className="md:hidden divide-y divide-border -mx-3">
             {paginated.map((e) => (
               <div key={e.id} className="px-3 py-3.5 space-y-2">
-                {/* Row 1: description + amount */}
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5 text-sm font-medium leading-tight">
@@ -434,15 +500,15 @@ export default function ExpensesPage() {
                   </div>
                   <span className="font-bold text-sm tabular-nums shrink-0">{fmtCompact(e.amount)}</span>
                 </div>
-                {/* Row 2: meta */}
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground min-w-0">
-                    <div className="flex items-center gap-1 shrink-0">
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      <div className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: CATEGORY_COLORS[e.category] }} />
                       <CategoryIcon category={e.category} />
                       <span>{e.category}</span>
                     </div>
                     <span className="text-border">·</span>
-                    <span className="shrink-0">{new Date(e.date).toLocaleDateString("en-NG", { day:"numeric", month:"short" })}</span>
+                    <span className="shrink-0">{new Date(e.date).toLocaleDateString("en-NG", { day: "numeric", month: "short" })}</span>
                   </div>
                   <div className="flex items-center gap-1.5 shrink-0">
                     <StatusBadge status={e.status} />
@@ -466,9 +532,7 @@ export default function ExpensesPage() {
 
           {/* Pagination */}
           <div className="mt-4 flex flex-col xs:flex-row items-center justify-between gap-2 text-xs sm:text-sm text-muted-foreground">
-            <span>
-              {start + 1}–{Math.min(start + PER_PAGE, filtered.length)} of {filtered.length} expenses
-            </span>
+            <span>{start + 1}–{Math.min(start + PER_PAGE, filtered.length)} of {filtered.length} expenses</span>
             <div className="flex items-center gap-2">
               <Button variant="outline" size="sm" className="h-8 w-8 p-0"
                 onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1}>
@@ -481,7 +545,6 @@ export default function ExpensesPage() {
               </Button>
             </div>
           </div>
-
         </CardContent>
       </Card>
     </div>
