@@ -83,6 +83,7 @@ const navigation: NavItem[] = [
       { name: "Tasks", href: "/dashboard/finance/tasks" },
     ],
   },
+   { name: "Employees", href: "/dashboard/employees", icon: Users },
   { name: "Staff Accounts", href: "/dashboard/staff", icon: UserCog },
 ]
 
