@@ -360,7 +360,7 @@ export default function PaymentMethodsPage() {
       </div>
 
       {/* Balance Cards */}
-      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Available Balance</CardTitle>
@@ -510,10 +510,10 @@ export default function PaymentMethodsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="flex items-center justify-between rounded-lg border p-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10 flex-shrink-0">
                       <span className="text-sm font-bold text-blue-600">₦</span>
                     </div>
                     <div>
@@ -525,7 +525,7 @@ export default function PaymentMethodsPage() {
                 </div>
                 <div className="flex items-center justify-between rounded-lg border p-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/10">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/10 flex-shrink-0">
                       <span className="text-sm font-bold text-purple-600">C</span>
                     </div>
                     <div>
@@ -537,7 +537,7 @@ export default function PaymentMethodsPage() {
                 </div>
                 <div className="flex items-center justify-between rounded-lg border p-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-500/10">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-500/10 flex-shrink-0">
                       <span className="text-sm font-bold text-green-600">U</span>
                     </div>
                     <div>
@@ -549,7 +549,7 @@ export default function PaymentMethodsPage() {
                 </div>
                 <div className="flex items-center justify-between rounded-lg border p-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10 flex-shrink-0">
                       <span className="text-sm font-bold text-orange-600">Q</span>
                     </div>
                     <div>

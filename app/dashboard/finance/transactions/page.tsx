@@ -367,7 +367,7 @@ export default function TransactionsPage() {
             </div>
             <div className="flex gap-2">
               <Select value={typeFilter} onValueChange={setTypeFilter}>
-                <SelectTrigger className="w-full sm:w-[130px]">
+                <SelectTrigger className="flex-1 sm:w-[130px]">
                   <Filter className="mr-2 h-4 w-4" />
                   <SelectValue placeholder="Type" />
                 </SelectTrigger>
@@ -378,7 +378,7 @@ export default function TransactionsPage() {
                 </SelectContent>
               </Select>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="w-full sm:w-[140px]">
+                <SelectTrigger className="flex-1 sm:w-[140px]">
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent>
@@ -428,9 +428,7 @@ export default function TransactionsPage() {
                       <div className="flex items-center gap-3">
                         <div
                           className={`h-9 w-9 rounded-full flex items-center justify-center ${
-                            transaction.type === "credit"
-                              ? "bg-green-500/10"
-                              : "bg-red-500/10"
+                            transaction.type === "credit" ?"bg-green-500/10" :"bg-red-500/10"
                           }`}
                         >
                           {transaction.type === "credit" ? (
@@ -477,9 +475,7 @@ export default function TransactionsPage() {
                     <TableCell className="text-right">
                       <span
                         className={`font-semibold ${
-                          transaction.type === "credit"
-                            ? "text-green-600"
-                            : "text-red-600"
+                          transaction.type === "credit" ?"text-green-600" :"text-red-600"
                         }`}
                       >
                         {transaction.type === "credit" ? "+" : "-"}
@@ -527,9 +523,7 @@ export default function TransactionsPage() {
                   <div className="flex items-center gap-3">
                     <div
                       className={`h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        transaction.type === "credit"
-                          ? "bg-green-500/10"
-                          : "bg-red-500/10"
+                        transaction.type === "credit" ?"bg-green-500/10" :"bg-red-500/10"
                       }`}
                     >
                       {transaction.type === "credit" ? (
@@ -584,9 +578,7 @@ export default function TransactionsPage() {
                   </div>
                   <span
                     className={`font-semibold ${
-                      transaction.type === "credit"
-                        ? "text-green-600"
-                        : "text-red-600"
+                      transaction.type === "credit" ?"text-green-600" :"text-red-600"
                     }`}
                   >
                     {transaction.type === "credit" ? "+" : "-"}
@@ -608,7 +600,7 @@ export default function TransactionsPage() {
               {Math.min(currentPage * itemsPerPage, filteredTransactions.length)} of{" "}
               {filteredTransactions.length} transactions
             </p>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 flex-wrap justify-center">
               <Button
                 variant="outline"
                 size="sm"
@@ -616,7 +608,7 @@ export default function TransactionsPage() {
                 disabled={currentPage === 1}
               >
                 <ChevronLeft className="h-4 w-4" />
-                Previous
+                <span className="hidden sm:inline">Previous</span>
               </Button>
               <div className="flex items-center gap-1">
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
@@ -637,7 +629,7 @@ export default function TransactionsPage() {
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
               >
-                Next
+                <span className="hidden sm:inline">Next</span>
                 <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
