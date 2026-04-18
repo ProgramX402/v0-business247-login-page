@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 import {
   Select,
   SelectContent,
@@ -34,7 +33,27 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts";
-import { PiggyBank, Plus, Download, Search, TrendingUp, AlertTriangle, MoreHorizontal, Edit, Trash2, Building2, Truck, Megaphone, Users, Wrench, FileText, CreditCard, Wallet,  } from "lucide-react";
+import {
+  PiggyBank,
+  Plus,
+  Download,
+  Search,
+  TrendingUp,
+  AlertTriangle,
+  MoreHorizontal,
+  Edit,
+  Trash2,
+  Building2,
+  Truck,
+  Megaphone,
+  Users,
+  Wrench,
+  FileText,
+  CreditCard,
+  Wallet,
+  SlidersHorizontal,
+  X,
+} from "lucide-react";
 
 interface Budget {
   id: string;
@@ -46,70 +65,14 @@ interface Budget {
 }
 
 const budgets: Budget[] = [
-  {
-    id: "BDG-001",
-    category: "Operations",
-    allocated: 500000,
-    spent: 221000,
-    period: "January 2024",
-    status: "on-track",
-  },
-  {
-    id: "BDG-002",
-    category: "Marketing",
-    allocated: 300000,
-    spent: 250000,
-    period: "January 2024",
-    status: "warning",
-  },
-  {
-    id: "BDG-003",
-    category: "Personnel",
-    allocated: 800000,
-    spent: 245000,
-    period: "January 2024",
-    status: "on-track",
-  },
-  {
-    id: "BDG-004",
-    category: "Transportation",
-    allocated: 150000,
-    spent: 120000,
-    period: "January 2024",
-    status: "warning",
-  },
-  {
-    id: "BDG-005",
-    category: "Utilities",
-    allocated: 100000,
-    spent: 75000,
-    period: "January 2024",
-    status: "on-track",
-  },
-  {
-    id: "BDG-006",
-    category: "Maintenance",
-    allocated: 80000,
-    spent: 95000,
-    period: "January 2024",
-    status: "exceeded",
-  },
-  {
-    id: "BDG-007",
-    category: "Rent",
-    allocated: 500000,
-    spent: 500000,
-    period: "January 2024",
-    status: "on-track",
-  },
-  {
-    id: "BDG-008",
-    category: "Software",
-    allocated: 60000,
-    spent: 35000,
-    period: "January 2024",
-    status: "on-track",
-  },
+  { id: "BDG-001", category: "Operations", allocated: 500000, spent: 221000, period: "January 2024", status: "on-track" },
+  { id: "BDG-002", category: "Marketing", allocated: 300000, spent: 250000, period: "January 2024", status: "warning" },
+  { id: "BDG-003", category: "Personnel", allocated: 800000, spent: 245000, period: "January 2024", status: "on-track" },
+  { id: "BDG-004", category: "Transportation", allocated: 150000, spent: 120000, period: "January 2024", status: "warning" },
+  { id: "BDG-005", category: "Utilities", allocated: 100000, spent: 75000, period: "January 2024", status: "on-track" },
+  { id: "BDG-006", category: "Maintenance", allocated: 80000, spent: 95000, period: "January 2024", status: "exceeded" },
+  { id: "BDG-007", category: "Rent", allocated: 500000, spent: 500000, period: "January 2024", status: "on-track" },
+  { id: "BDG-008", category: "Software", allocated: 60000, spent: 35000, period: "January 2024", status: "on-track" },
 ];
 
 const monthlyComparison = [
@@ -127,11 +90,13 @@ const chartConfig = {
 };
 
 const formatCurrency = (amount: number) =>
-  new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
-    minimumFractionDigits: 0,
-  }).format(amount);
+  new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN", minimumFractionDigits: 0 }).format(amount);
+
+const formatCurrencyCompact = (amount: number) => {
+  if (Math.abs(amount) >= 1_000_000) return `₦${(amount / 1_000_000).toFixed(1)}M`;
+  if (Math.abs(amount) >= 1_000) return `₦${(amount / 1_000).toFixed(0)}K`;
+  return `₦${amount}`;
+};
 
 const getCategoryIcon = (category: string) => {
   const map: Record<string, React.ReactNode> = {
@@ -150,34 +115,19 @@ const getCategoryIcon = (category: string) => {
 const getStatusBadge = (status: Budget["status"]) => {
   switch (status) {
     case "on-track":
-      return (
-        <Badge className="bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20">
-          On Track
-        </Badge>
-      );
+      return <Badge className="bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 whitespace-nowrap">On Track</Badge>;
     case "warning":
-      return (
-        <Badge className="bg-amber-500/10 text-amber-500 hover:bg-amber-500/20">
-          Warning
-        </Badge>
-      );
+      return <Badge className="bg-amber-500/10 text-amber-500 hover:bg-amber-500/20">Warning</Badge>;
     case "exceeded":
-      return (
-        <Badge className="bg-red-500/10 text-red-500 hover:bg-red-500/20">
-          Exceeded
-        </Badge>
-      );
+      return <Badge className="bg-red-500/10 text-red-500 hover:bg-red-500/20">Exceeded</Badge>;
   }
 };
 
 const getProgressColor = (status: Budget["status"]) => {
   switch (status) {
-    case "on-track":
-      return "bg-emerald-500";
-    case "warning":
-      return "bg-amber-500";
-    case "exceeded":
-      return "bg-red-500";
+    case "on-track": return "bg-emerald-500";
+    case "warning": return "bg-amber-500";
+    case "exceeded": return "bg-red-500";
   }
 };
 
@@ -186,11 +136,10 @@ export default function BudgetsPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [periodFilter, setPeriodFilter] = useState("january-2024");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
   const filteredBudgets = budgets.filter((b) => {
-    const matchesSearch = b.category
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
+    const matchesSearch = b.category.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesStatus = statusFilter === "all" || b.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -199,38 +148,33 @@ export default function BudgetsPage() {
   const totalSpent = budgets.reduce((sum, b) => sum + b.spent, 0);
   const totalRemaining = totalAllocated - totalSpent;
   const overallPercent = Math.round((totalSpent / totalAllocated) * 100);
-
   const exceededCount = budgets.filter((b) => b.status === "exceeded").length;
   const warningCount = budgets.filter((b) => b.status === "warning").length;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4 sm:gap-6 p-4 sm:p-6">
       {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Budgets</h1>
-          <p className="text-muted-foreground">
-            Plan and monitor your spending across categories
-          </p>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Budgets</h1>
+          <p className="text-sm text-muted-foreground">Plan and monitor your spending across categories</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" className="flex-1 sm:flex-none">
             <Download className="mr-2 h-4 w-4" />
             Export
           </Button>
           <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
             <DialogTrigger asChild>
-              <Button size="sm">
+              <Button size="sm" className="flex-1 sm:flex-none">
                 <Plus className="mr-2 h-4 w-4" />
                 New Budget
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[480px]">
+            <DialogContent className="w-[calc(100vw-2rem)] max-w-[480px] rounded-lg">
               <DialogHeader>
                 <DialogTitle>Create New Budget</DialogTitle>
-                <DialogDescription>
-                  Set a spending limit for a category and period.
-                </DialogDescription>
+                <DialogDescription>Set a spending limit for a category and period.</DialogDescription>
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
@@ -251,7 +195,7 @@ export default function BudgetsPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="grid gap-2">
                     <Label htmlFor="amount">Budget Amount (₦)</Label>
                     <Input id="amount" type="number" placeholder="0" />
@@ -273,11 +217,11 @@ export default function BudgetsPage() {
                   </div>
                 </div>
               </div>
-              <DialogFooter>
-                <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
+              <DialogFooter className="flex-col-reverse gap-2 sm:flex-row sm:gap-0">
+                <Button variant="outline" onClick={() => setIsAddDialogOpen(false)} className="w-full sm:w-auto">
                   Cancel
                 </Button>
-                <Button onClick={() => setIsAddDialogOpen(false)}>
+                <Button onClick={() => setIsAddDialogOpen(false)} className="w-full sm:w-auto">
                   Create Budget
                 </Button>
               </DialogFooter>
@@ -286,110 +230,90 @@ export default function BudgetsPage() {
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Stats Cards — 2-col on mobile, 4-col on lg */}
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Allocated</CardTitle>
-            <Wallet className="h-4 w-4 text-muted-foreground" />
+          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0 p-4">
+            <CardTitle className="text-xs sm:text-sm font-medium">Total Allocated</CardTitle>
+            <Wallet className="h-4 w-4 text-muted-foreground shrink-0" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(totalAllocated)}</div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Across {budgets.length} categories
-            </p>
+          <CardContent className="px-4 pb-4 pt-0">
+            <div className="text-lg sm:text-2xl font-bold truncate">{formatCurrencyCompact(totalAllocated)}</div>
+            <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Across {budgets.length} categories</p>
+            <p className="text-xs text-muted-foreground mt-1 sm:hidden">{budgets.length} categories</p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Spent</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0 p-4">
+            <CardTitle className="text-xs sm:text-sm font-medium">Total Spent</CardTitle>
+            <TrendingUp className="h-4 w-4 text-muted-foreground shrink-0" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(totalSpent)}</div>
-            <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-              <span>{overallPercent}% of total budget used</span>
-            </div>
+          <CardContent className="px-4 pb-4 pt-0">
+            <div className="text-lg sm:text-2xl font-bold truncate">{formatCurrencyCompact(totalSpent)}</div>
+            <p className="text-xs text-muted-foreground mt-1">{overallPercent}% used</p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Remaining</CardTitle>
-            <PiggyBank className="h-4 w-4 text-emerald-500" />
+          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0 p-4">
+            <CardTitle className="text-xs sm:text-sm font-medium">Remaining</CardTitle>
+            <PiggyBank className="h-4 w-4 text-emerald-500 shrink-0" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(totalRemaining)}</div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Available to spend this period
-            </p>
+          <CardContent className="px-4 pb-4 pt-0">
+            <div className="text-lg sm:text-2xl font-bold truncate text-emerald-500">{formatCurrencyCompact(totalRemaining)}</div>
+            <p className="text-xs text-muted-foreground mt-1 hidden sm:block">Available this period</p>
+            <p className="text-xs text-muted-foreground mt-1 sm:hidden">Available</p>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Alerts</CardTitle>
-            <AlertTriangle className="h-4 w-4 text-amber-500" />
+          <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0 p-4">
+            <CardTitle className="text-xs sm:text-sm font-medium">Alerts</CardTitle>
+            <AlertTriangle className="h-4 w-4 text-amber-500 shrink-0" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{exceededCount + warningCount}</div>
+          <CardContent className="px-4 pb-4 pt-0">
+            <div className="text-lg sm:text-2xl font-bold">{exceededCount + warningCount}</div>
             <p className="text-xs text-muted-foreground mt-1">
-              {exceededCount} exceeded · {warningCount} near limit
+              <span className="hidden sm:inline">{exceededCount} exceeded · {warningCount} near limit</span>
+              <span className="sm:hidden">{exceededCount} over · {warningCount} near</span>
             </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Chart + Overview */}
+      {/* Chart + Overview — stacked on mobile, side-by-side on lg */}
       <div className="grid gap-4 lg:grid-cols-3">
-        {/* Bar Chart */}
         <Card className="lg:col-span-2">
-          <CardHeader>
+          <CardHeader className="p-4 sm:p-6">
             <CardTitle className="text-base">Budget vs. Spending</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Monthly allocated vs. actual spend
-            </p>
+            <p className="text-sm text-muted-foreground">Monthly allocated vs. actual spend</p>
           </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-[220px] w-full">
+          <CardContent className="px-2 pb-4 sm:px-6">
+            <ChartContainer config={chartConfig} className="h-[180px] sm:h-[220px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={monthlyComparison}
-                  barCategoryGap="30%"
-                  barGap={4}
-                >
+                <BarChart data={monthlyComparison} barCategoryGap="30%" barGap={4}>
                   <XAxis
                     dataKey="month"
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                    tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
                   />
                   <YAxis
                     axisLine={false}
                     tickLine={false}
-                    tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
+                    tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
                     tickFormatter={(v) => `₦${(v / 1000000).toFixed(1)}M`}
+                    width={52}
                   />
                   <ChartTooltip
                     content={
-                      <ChartTooltipContent
-                        formatter={(value) => formatCurrency(Number(value))}
-                      />
+                      <ChartTooltipContent formatter={(value) => formatCurrency(Number(value))} />
                     }
                   />
-                  <Bar
-                    dataKey="allocated"
-                    fill="hsl(var(--primary))"
-                    radius={[4, 4, 0, 0]}
-                    opacity={0.4}
-                  />
-                  <Bar
-                    dataKey="spent"
-                    fill="hsl(var(--primary))"
-                    radius={[4, 4, 0, 0]}
-                  />
+                  <Bar dataKey="allocated" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} opacity={0.4} />
+                  <Bar dataKey="spent" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
-            <div className="flex items-center gap-4 mt-3">
+            <div className="flex items-center gap-4 mt-3 px-2 sm:px-0">
               <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                 <span className="inline-block h-2.5 w-2.5 rounded-sm bg-primary opacity-40" />
                 Allocated
@@ -402,31 +326,19 @@ export default function BudgetsPage() {
           </CardContent>
         </Card>
 
-        {/* Overall Progress */}
         <Card>
-          <CardHeader>
+          <CardHeader className="p-4 sm:p-6">
             <CardTitle className="text-base">Overall Budget Health</CardTitle>
             <p className="text-sm text-muted-foreground">January 2024</p>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4">
-            <div className="flex flex-col items-center justify-center py-4">
+          <CardContent className="px-4 pb-4 sm:px-6 flex flex-col gap-4">
+            <div className="flex flex-col items-center justify-center py-2 sm:py-4">
               <div className="relative flex items-center justify-center">
-                <svg className="h-32 w-32 -rotate-90" viewBox="0 0 120 120">
+                <svg className="h-28 w-28 sm:h-32 sm:w-32 -rotate-90" viewBox="0 0 120 120">
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="hsl(var(--muted))" strokeWidth="12" />
                   <circle
-                    cx="60"
-                    cy="60"
-                    r="50"
-                    fill="none"
-                    stroke="hsl(var(--muted))"
-                    strokeWidth="12"
-                  />
-                  <circle
-                    cx="60"
-                    cy="60"
-                    r="50"
-                    fill="none"
-                    stroke="hsl(var(--primary))"
-                    strokeWidth="12"
+                    cx="60" cy="60" r="50" fill="none"
+                    stroke="hsl(var(--primary))" strokeWidth="12"
                     strokeDasharray={`${2 * Math.PI * 50}`}
                     strokeDashoffset={`${2 * Math.PI * 50 * (1 - overallPercent / 100)}`}
                     strokeLinecap="round"
@@ -441,39 +353,48 @@ export default function BudgetsPage() {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Allocated</span>
-                <span className="font-medium">{formatCurrency(totalAllocated)}</span>
+                <span className="font-medium truncate ml-2">{formatCurrency(totalAllocated)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Spent</span>
-                <span className="font-medium">{formatCurrency(totalSpent)}</span>
+                <span className="font-medium truncate ml-2">{formatCurrency(totalSpent)}</span>
               </div>
               <div className="flex justify-between border-t border-border pt-2">
                 <span className="text-muted-foreground">Remaining</span>
-                <span className="font-medium text-emerald-500">
-                  {formatCurrency(totalRemaining)}
-                </span>
+                <span className="font-medium text-emerald-500 truncate ml-2">{formatCurrency(totalRemaining)}</span>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Budget Categories Table */}
+      {/* Budget Categories */}
       <Card>
-        <CardHeader>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <CardTitle className="text-base">Budget Categories</CardTitle>
-              <p className="text-sm text-muted-foreground mt-0.5">
-                Spending breakdown by category
-              </p>
+        <CardHeader className="p-4 sm:p-6">
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-base">Budget Categories</CardTitle>
+                <p className="text-sm text-muted-foreground mt-0.5">Spending breakdown by category</p>
+              </div>
+              {/* Mobile filter toggle */}
+              <Button
+                variant="outline"
+                size="sm"
+                className="sm:hidden"
+                onClick={() => setShowFilters(!showFilters)}
+              >
+                {showFilters ? <X className="h-4 w-4" /> : <SlidersHorizontal className="h-4 w-4" />}
+              </Button>
             </div>
-            <div className="flex flex-wrap items-center gap-2">
+
+            {/* Desktop filters — always visible on sm+ */}
+            <div className="hidden sm:flex flex-wrap items-center gap-2">
               <div className="relative">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Search category..."
-                  className="pl-8 h-9 w-48"
+                  className="pl-8 h-9 w-44"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -500,77 +421,84 @@ export default function BudgetsPage() {
                 </SelectContent>
               </Select>
             </div>
+
+            {/* Mobile filters — collapsible */}
+            {showFilters && (
+              <div className="flex flex-col gap-2 sm:hidden">
+                <div className="relative">
+                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search category..."
+                    className="pl-8 h-9 w-full"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <SelectTrigger className="h-9 flex-1">
+                      <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Statuses</SelectItem>
+                      <SelectItem value="on-track">On Track</SelectItem>
+                      <SelectItem value="warning">Warning</SelectItem>
+                      <SelectItem value="exceeded">Exceeded</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Select value={periodFilter} onValueChange={setPeriodFilter}>
+                    <SelectTrigger className="h-9 flex-1">
+                      <SelectValue placeholder="Period" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="january-2024">January 2024</SelectItem>
+                      <SelectItem value="february-2024">February 2024</SelectItem>
+                      <SelectItem value="q1-2024">Q1 2024</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            )}
           </div>
         </CardHeader>
+
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
+          {/* Desktop table — hidden on mobile */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/40">
-                  <th className="px-6 py-3 text-left font-medium text-muted-foreground">
-                    Category
-                  </th>
-                  <th className="px-6 py-3 text-right font-medium text-muted-foreground">
-                    Allocated
-                  </th>
-                  <th className="px-6 py-3 text-right font-medium text-muted-foreground">
-                    Spent
-                  </th>
-                  <th className="px-6 py-3 text-right font-medium text-muted-foreground">
-                    Remaining
-                  </th>
-                  <th className="px-6 py-3 text-left font-medium text-muted-foreground min-w-[160px]">
-                    Progress
-                  </th>
-                  <th className="px-6 py-3 text-left font-medium text-muted-foreground">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-right font-medium text-muted-foreground">
-                    Actions
-                  </th>
+                  <th className="px-6 py-3 text-left font-medium text-muted-foreground">Category</th>
+                  <th className="px-6 py-3 text-right font-medium text-muted-foreground">Allocated</th>
+                  <th className="px-6 py-3 text-right font-medium text-muted-foreground">Spent</th>
+                  <th className="px-6 py-3 text-right font-medium text-muted-foreground">Remaining</th>
+                  <th className="px-6 py-3 text-left font-medium text-muted-foreground min-w-[160px]">Progress</th>
+                  <th className="px-6 py-3 text-left font-medium text-muted-foreground">Status</th>
+                  <th className="px-6 py-3 text-right font-medium text-muted-foreground">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {filteredBudgets.map((budget) => {
-                  const percent = Math.min(
-                    Math.round((budget.spent / budget.allocated) * 100),
-                    100
-                  );
+                  const percent = Math.min(Math.round((budget.spent / budget.allocated) * 100), 100);
                   const remaining = budget.allocated - budget.spent;
                   return (
-                    <tr
-                      key={budget.id}
-                      className="hover:bg-muted/30 transition-colors"
-                    >
+                    <tr key={budget.id} className="hover:bg-muted/30 transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2.5">
-                          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0">
                             {getCategoryIcon(budget.category)}
                           </span>
                           <div>
                             <p className="font-medium">{budget.category}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {budget.period}
-                            </p>
+                            <p className="text-xs text-muted-foreground">{budget.period}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-right font-medium">
-                        {formatCurrency(budget.allocated)}
-                      </td>
+                      <td className="px-6 py-4 text-right font-medium">{formatCurrency(budget.allocated)}</td>
+                      <td className="px-6 py-4 text-right">{formatCurrency(budget.spent)}</td>
                       <td className="px-6 py-4 text-right">
-                        {formatCurrency(budget.spent)}
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <span
-                          className={
-                            remaining < 0
-                              ? "text-red-500 font-medium" :"text-emerald-500 font-medium"
-                          }
-                        >
-                          {remaining < 0
-                            ? `-${formatCurrency(Math.abs(remaining))}`
-                            : formatCurrency(remaining)}
+                        <span className={remaining < 0 ? "text-red-500 font-medium" : "text-emerald-500 font-medium"}>
+                          {remaining < 0 ? `-${formatCurrency(Math.abs(remaining))}` : formatCurrency(remaining)}
                         </span>
                       </td>
                       <td className="px-6 py-4 min-w-[160px]">
@@ -581,14 +509,10 @@ export default function BudgetsPage() {
                               style={{ width: `${percent}%` }}
                             />
                           </div>
-                          <span className="text-xs text-muted-foreground w-8 text-right">
-                            {percent}%
-                          </span>
+                          <span className="text-xs text-muted-foreground w-8 text-right">{percent}%</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4">
-                        {getStatusBadge(budget.status)}
-                      </td>
+                      <td className="px-6 py-4">{getStatusBadge(budget.status)}</td>
                       <td className="px-6 py-4 text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -614,13 +538,77 @@ export default function BudgetsPage() {
               </tbody>
             </table>
           </div>
+
+          {/* Mobile cards — visible below md */}
+          <div className="md:hidden divide-y divide-border">
+            {filteredBudgets.map((budget) => {
+              const percent = Math.min(Math.round((budget.spent / budget.allocated) * 100), 100);
+              const remaining = budget.allocated - budget.spent;
+              return (
+                <div key={budget.id} className="p-4 hover:bg-muted/30 transition-colors">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0">
+                        {getCategoryIcon(budget.category)}
+                      </span>
+                      <div className="min-w-0">
+                        <p className="font-medium truncate">{budget.category}</p>
+                        <p className="text-xs text-muted-foreground">{budget.period}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5 shrink-0">
+                      {getStatusBadge(budget.status)}
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit Budget
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="text-destructive">
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  </div>
+
+                  {/* Progress bar */}
+                  <div className="mt-3">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+                      <span>Spent {formatCurrencyCompact(budget.spent)} of {formatCurrencyCompact(budget.allocated)}</span>
+                      <span>{percent}%</span>
+                    </div>
+                    <div className="h-2 rounded-full bg-muted overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all ${getProgressColor(budget.status)}`}
+                        style={{ width: `${percent}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Remaining */}
+                  <div className="mt-2 flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground">Remaining</span>
+                    <span className={`font-medium ${remaining < 0 ? "text-red-500" : "text-emerald-500"}`}>
+                      {remaining < 0 ? `-${formatCurrencyCompact(Math.abs(remaining))}` : formatCurrencyCompact(remaining)}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
           {filteredBudgets.length === 0 && (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <PiggyBank className="h-10 w-10 text-muted-foreground mb-3" />
               <p className="font-medium">No budgets found</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                Try adjusting your filters or create a new budget.
-              </p>
+              <p className="text-sm text-muted-foreground mt-1">Try adjusting your filters or create a new budget.</p>
             </div>
           )}
         </CardContent>
