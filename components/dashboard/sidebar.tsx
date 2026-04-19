@@ -81,7 +81,6 @@ const navigation: NavItem[] = [
       { name: "Budgets", href: "/dashboard/finance/budgets" },
       { name: "Debts", href: "/dashboard/finance/debts" },
       { name: "Tax", href: "/dashboard/finance/tax" },
-      { name: "Tasks", href: "/dashboard/finance/tasks" },
     ],
   },
   { name: "Staff Accounts", href: "/dashboard/staff", icon: UserCog },
