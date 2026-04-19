@@ -83,6 +83,7 @@ const navigation: NavItem[] = [
       { name: "Tax", href: "/dashboard/finance/tax" },
     ],
   },
+  { name: "Employees", href: "/dashboard/employees", icon: Users },
   { name: "Staff Accounts", href: "/dashboard/staff", icon: UserCog },
 ]
 
