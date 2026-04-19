@@ -27,13 +27,17 @@ import { Input } from "@/components/ui/input";
 
 interface TopBarProps {
   onToggleSidebar: () => void
+  sidebarCollapsed?: boolean
+  isMobile?: boolean
 }
 
-export function TopBar({ onToggleSidebar }: TopBarProps) {
+export function TopBar({ onToggleSidebar, sidebarCollapsed = true, isMobile = false }: TopBarProps) {
   const [searchOpen, setSearchOpen] = useState(false)
 
+  const leftOffset = isMobile ? 'left-0' : (sidebarCollapsed ? 'lg:left-20' : 'lg:left-64')
+
   return (
-    <header className="sticky top-0 z-30 h-16 bg-card border-b border-border">
+    <header className={`fixed top-0 z-30 h-16 bg-card border-b border-border right-0 left-0 ${leftOffset} transition-all duration-300`}>
       <div className="h-full flex items-center justify-between px-4 gap-4">
         {/* Left section */}
         <div className="flex items-center gap-2">
