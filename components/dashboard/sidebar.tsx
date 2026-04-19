@@ -4,32 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/logo";
-import {
-  LayoutDashboard,
-  ShoppingCart,
-  Package,
-  Megaphone,
-  ChevronDown,
-  ChevronRight,
-  Briefcase,
-  Users,
-  BarChart3,
-  Wallet,
-  UserCog,
-  Palette,
-  Globe,
-  Target,
-  Store,
-  Receipt,
-  CreditCard,
-  Landmark,
-  FileText,
-  PiggyBank,
-  AlertCircle,
-  CheckSquare,
-  PanelLeftClose,
-  PanelLeft,
-} from "lucide-react";
+import { LayoutDashboard, ShoppingCart, Package, Megaphone, ChevronDown, ChevronRight, Briefcase, Users, BarChart3, Wallet, UserCog, Globe, Target, Store, Receipt, CreditCard, Landmark, FileText, PiggyBank, AlertCircle, CheckSquare, PanelLeftClose, PanelLeft,  } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface SidebarProps {
@@ -62,7 +37,6 @@ const navigation: NavItem[] = [
     children: [
       { name: "Campaigns", href: "/dashboard/sales-marketing/campaigns" },
       { name: "Sales Channels", href: "/dashboard/sales-marketing/channels" },
-      { name: "Brand Designs", href: "/dashboard/sales-marketing/brand-designs" },
       { name: "Website", href: "/dashboard/sales-marketing/website" },
     ],
   },
@@ -93,7 +67,6 @@ const getIconForChild = (name: string) => {
     "Abandoned Orders": AlertCircle,
     Campaigns: Target,
     "Sales Channels": Store,
-    "Brand Designs": Palette,
     Website: Globe,
     Transactions: Receipt,
     Expenses: CreditCard,
