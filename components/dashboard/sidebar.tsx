@@ -29,6 +29,7 @@ import {
   CheckSquare,
   PanelLeftClose,
   PanelLeft,
+  Bell,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -85,6 +86,7 @@ const navigation: NavItem[] = [
   },
   { name: "Employees", href: "/dashboard/employees", icon: Users },
   { name: "Staff Accounts", href: "/dashboard/staff", icon: UserCog },
+  { name: "Notifications", href: "/dashboard/notifications", icon: Bell },
 ]
 
 const getIconForChild = (name: string) => {
