@@ -40,8 +40,8 @@ export default function DashboardLayout({
       <div className={`transition-all duration-300 min-w-0 overflow-x-hidden ${
         isMobile ? 'pl-0' : (sidebarCollapsed ? 'lg:pl-20' : 'lg:pl-64')
       }`}>
-        <TopBar onToggleSidebar={handleToggleSidebar} />
-        <main className="p-4 sm:p-6 min-w-0">
+        <TopBar onToggleSidebar={handleToggleSidebar} sidebarCollapsed={sidebarCollapsed} isMobile={isMobile} />
+        <main className="p-4 sm:p-6 min-w-0 pt-20 sm:pt-22">
           {children}
         </main>
       </div>
