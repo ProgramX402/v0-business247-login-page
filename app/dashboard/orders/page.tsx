@@ -13,6 +13,7 @@ import {
   Filter,
   MoreHorizontal,
   TrendingUp,
+  Plus,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
@@ -22,7 +23,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// Mock data for orders
 const mockOrders = {
   pending: [
     {
@@ -102,261 +102,272 @@ const mockOrders = {
       status: "Completed",
     },
   ],
+};
+
+// Shared avatar initials helper
+function Initials({ name, className }: { name: string; className?: string }) {
+  return (
+    <span className={`text-xs font-semibold ${className}`}>
+      {name.split(" ").map((n) => n[0]).join("")}
+    </span>
+  );
 }
 
-const OrderCard = ({ order, onAction }: { order: (typeof mockOrders.pending)[0]; onAction: (action: string, orderId: string) => void }) => (
-  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 rounded-lg border border-border hover:border-primary/50 transition-colors gap-4">
-    <div className="flex items-center gap-3 sm:gap-4">
-      <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-        <span className="text-xs sm:text-sm font-medium text-primary">
-          {order.customer.split(" ").map((n) => n[0]).join("")}
-        </span>
+// Shared customer info block
+function CustomerInfo({ order }: { order: (typeof mockOrders.pending)[0] }) {
+  return (
+    <div className="flex items-center gap-3 flex-1 min-w-0">
+      <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+        <Initials name={order.customer} className="text-primary" />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="font-medium text-foreground text-sm sm:text-base">{order.customer}</p>
-        <p className="text-xs sm:text-sm text-muted-foreground truncate">{order.email}</p>
-        <p className="text-xs text-muted-foreground">{order.id} · {order.items} items</p>
+        <p className="font-medium text-foreground text-sm truncate">{order.customer}</p>
+        <p className="text-xs text-muted-foreground truncate">{order.email}</p>
+        <p className="text-xs text-muted-foreground">
+          {order.id} · {order.items} item{order.items !== 1 ? "s" : ""}
+        </p>
       </div>
     </div>
-    <div className="flex items-center justify-between sm:justify-end gap-3 sm:gap-4 pl-13 sm:pl-0">
-      <div className="text-right">
-        <p className="font-semibold text-foreground text-sm sm:text-base">{order.amount}</p>
-        <p className="text-xs text-muted-foreground">{order.date}</p>
-      </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-8 w-8">
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => onAction("view", order.id)}>
-            View Details
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onAction("edit", order.id)}>
-            Edit Order
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onAction("download", order.id)}>
-            Download Invoice
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
-  </div>
-)
+  );
+}
 
-const PendingOrderCard = ({ order, onAction }: { order: (typeof mockOrders.pending)[0]; onAction: (action: string, orderId: string) => void }) => (
-  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 rounded-lg border border-border hover:border-primary/50 transition-colors gap-4">
-    <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
-      <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-        <span className="text-xs sm:text-sm font-medium text-primary">
-          {order.customer.split(" ").map((n) => n[0]).join("")}
-        </span>
-      </div>
-      <div className="min-w-0 flex-1">
-        <p className="font-medium text-foreground text-sm sm:text-base">{order.customer}</p>
-        <p className="text-xs sm:text-sm text-muted-foreground truncate">{order.email}</p>
-        <p className="text-xs text-muted-foreground">{order.id} · {order.items} items</p>
-      </div>
+// Amount + date block
+function AmountBlock({ order }: { order: (typeof mockOrders.pending)[0] }) {
+  return (
+    <div className="text-right shrink-0">
+      <p className="font-semibold text-foreground text-sm">{order.amount}</p>
+      <p className="text-xs text-muted-foreground">{order.date}</p>
     </div>
-    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-      <div className="text-right">
-        <p className="font-semibold text-foreground text-sm sm:text-base">{order.amount}</p>
-        <p className="text-xs text-muted-foreground">{order.date}</p>
-      </div>
-      <div className="flex gap-2">
-        <Button
-          size="sm"
-          variant="outline"
-          className="flex-1 sm:flex-none"
-          onClick={() => onAction("reject", order.id)}
-        >
-          <XCircle className="h-4 w-4 mr-1" />
-          <span className="hidden sm:inline">Reject</span>
-        </Button>
-        <Button
-          size="sm"
-          className="flex-1 sm:flex-none"
-          onClick={() => onAction("accept", order.id)}
-        >
-          <CheckCircle2 className="h-4 w-4 mr-1" />
-          <span className="hidden sm:inline">Accept</span>
-        </Button>
-      </div>
-    </div>
-  </div>
-)
+  );
+}
 
-const ProcessingOrderCard = ({ order, onAction }: { order: (typeof mockOrders.processing)[0]; onAction: (action: string, orderId: string) => void }) => (
-  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 rounded-lg border border-border hover:border-primary/50 transition-colors gap-4">
-    <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
-      <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center flex-shrink-0">
-        <span className="text-xs sm:text-sm font-medium text-blue-600">
-          {order.customer.split(" ").map((n) => n[0]).join("")}
-        </span>
-      </div>
-      <div className="min-w-0 flex-1">
-        <p className="font-medium text-foreground text-sm sm:text-base">{order.customer}</p>
-        <p className="text-xs sm:text-sm text-muted-foreground truncate">{order.email}</p>
-        <p className="text-xs text-muted-foreground">{order.id} · {order.items} items</p>
-      </div>
+// Base card shell
+function OrderShell({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`flex flex-col gap-3 p-3 sm:p-4 rounded-lg border border-border transition-colors ${className}`}
+    >
+      {children}
     </div>
-    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-      <div className="text-right">
-        <p className="font-semibold text-foreground text-sm sm:text-base">{order.amount}</p>
-        <p className="text-xs text-muted-foreground">{order.date}</p>
-      </div>
+  );
+}
+
+// --- Card variants ---
+
+const PendingOrderCard = ({
+  order,
+  onAction,
+}: {
+  order: (typeof mockOrders.pending)[0];
+  onAction: (action: string, orderId: string) => void;
+}) => (
+  <OrderShell className="hover:border-yellow-500/40">
+    {/* Row 1: avatar + info + amount */}
+    <div className="flex items-start justify-between gap-3">
+      <CustomerInfo order={order} />
+      <AmountBlock order={order} />
+    </div>
+    {/* Row 2: action buttons — always full-width on mobile, auto on sm+ */}
+    <div className="flex gap-2 sm:justify-end">
       <Button
         size="sm"
-        className="w-full sm:w-auto"
-        onClick={() => onAction("complete", order.id)}
+        variant="outline"
+        className="flex-1 sm:flex-none"
+        onClick={() => onAction("reject", order.id)}
       >
-        <CheckCircle2 className="h-4 w-4 mr-1" />
-        <span className="hidden sm:inline">Mark Complete</span>
-        <span className="sm:hidden">Complete</span>
+        <XCircle className="h-4 w-4 mr-1.5" />
+        Reject
+      </Button>
+      <Button
+        size="sm"
+        className="flex-1 sm:flex-none"
+        onClick={() => onAction("accept", order.id)}
+      >
+        <CheckCircle2 className="h-4 w-4 mr-1.5" />
+        Accept
       </Button>
     </div>
-  </div>
-)
+  </OrderShell>
+);
 
-const CompletedOrderCard = ({ order, onAction }: { order: (typeof mockOrders.completed)[0]; onAction: (action: string, orderId: string) => void }) => (
-  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 rounded-lg border border-border bg-green-500/5 hover:border-green-500/50 transition-colors gap-4">
-    <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
-      <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
-        <CheckCircle2 className="h-4 w-4 text-green-600" />
+const ProcessingOrderCard = ({
+  order,
+  onAction,
+}: {
+  order: (typeof mockOrders.processing)[0];
+  onAction: (action: string, orderId: string) => void;
+}) => (
+  <OrderShell className="hover:border-blue-500/40">
+    <div className="flex items-start justify-between gap-3">
+      <div className="flex items-center gap-3 flex-1 min-w-0">
+        <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center shrink-0">
+          <Initials name={order.customer} className="text-blue-600" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="font-medium text-foreground text-sm truncate">{order.customer}</p>
+          <p className="text-xs text-muted-foreground truncate">{order.email}</p>
+          <p className="text-xs text-muted-foreground">
+            {order.id} · {order.items} item{order.items !== 1 ? "s" : ""}
+          </p>
+        </div>
       </div>
-      <div className="min-w-0 flex-1">
-        <p className="font-medium text-foreground text-sm sm:text-base">{order.customer}</p>
-        <p className="text-xs sm:text-sm text-muted-foreground truncate">{order.email}</p>
-        <p className="text-xs text-muted-foreground">{order.id} · {order.items} items</p>
+      <AmountBlock order={order} />
+    </div>
+    <div className="flex sm:justify-end">
+      <Button
+        size="sm"
+        className="flex-1 sm:flex-none"
+        onClick={() => onAction("complete", order.id)}
+      >
+        <CheckCircle2 className="h-4 w-4 mr-1.5" />
+        Mark Complete
+      </Button>
+    </div>
+  </OrderShell>
+);
+
+const CompletedOrderCard = ({
+  order,
+  onAction,
+}: {
+  order: (typeof mockOrders.completed)[0];
+  onAction: (action: string, orderId: string) => void;
+}) => (
+  <OrderShell className="bg-green-500/5 hover:border-green-500/40">
+    <div className="flex items-start justify-between gap-3">
+      <div className="flex items-center gap-3 flex-1 min-w-0">
+        <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
+          <CheckCircle2 className="h-4 w-4 text-green-600" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="font-medium text-foreground text-sm truncate">{order.customer}</p>
+          <p className="text-xs text-muted-foreground truncate">{order.email}</p>
+          <p className="text-xs text-muted-foreground">
+            {order.id} · {order.items} item{order.items !== 1 ? "s" : ""}
+          </p>
+        </div>
+      </div>
+      {/* Amount + menu side by side */}
+      <div className="flex items-center gap-1 shrink-0">
+        <AmountBlock order={order} />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => onAction("view", order.id)}>
+              View Details
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onAction("download", order.id)}>
+              Download Invoice
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
-    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-      <div className="text-right">
-        <p className="font-semibold text-foreground text-sm sm:text-base">{order.amount}</p>
-        <p className="text-xs text-muted-foreground">{order.date}</p>
-      </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-8 w-8">
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => onAction("view", order.id)}>
-            View Details
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onAction("download", order.id)}>
-            Download Invoice
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
-  </div>
-)
+  </OrderShell>
+);
+
+// Total revenue calc
+const totalRevenue =
+  [...mockOrders.pending, ...mockOrders.processing, ...mockOrders.completed].reduce(
+    (sum, order) => sum + parseInt(order.amount.replace(/[^\d]/g, ""), 10),
+    0
+  ) / 1000;
 
 export default function OrdersPage() {
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleOrderAction = (action: string, orderId: string) => {
-    console.log(`[v0] Order action: ${action} on ${orderId}`)
-    // Handle the action
-    switch (action) {
-      case "accept":
-        console.log(`[v0] Accepting order ${orderId}`)
-        break
-      case "reject":
-        console.log(`[v0] Rejecting order ${orderId}`)
-        break
-      case "complete":
-        console.log(`[v0] Marking order ${orderId} as complete`)
-        break
-      case "view":
-        console.log(`[v0] Viewing details for order ${orderId}`)
-        break
-      case "edit":
-        console.log(`[v0] Editing order ${orderId}`)
-        break
-      case "download":
-        console.log(`[v0] Downloading invoice for order ${orderId}`)
-        break
-    }
-  }
+    console.log(`Order action: ${action} on ${orderId}`);
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 p-4 sm:p-6">
       {/* Page Header */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-foreground">Orders</h1>
-          <p className="text-sm sm:text-base text-muted-foreground">Manage and track all your customer orders</p>
+          <p className="text-sm text-muted-foreground mt-0.5">
+            Manage and track all your customer orders
+          </p>
         </div>
+
+        {/* Search + actions row */}
         <div className="flex flex-col sm:flex-row gap-2">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search orders, customers..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="pl-9"
             />
           </div>
-          <Button variant="outline" className="w-full sm:w-auto">
-            <Filter className="mr-2 h-4 w-4" />
-            Filters
-          </Button>
-          <Button className="w-full sm:w-auto">Create Order</Button>
+          <div className="flex gap-2">
+            <Button variant="outline" className="flex-1 sm:flex-none">
+              <Filter className="h-4 w-4 sm:mr-2" />
+              <span className="sm:inline hidden">Filters</span>
+            </Button>
+            <Button className="flex-1 sm:flex-none">
+              <Plus className="h-4 w-4 sm:mr-2" />
+              <span className="sm:inline hidden">Create Order</span>
+            </Button>
+          </div>
         </div>
       </div>
 
-      {/* Stats Overview */}
-      <div className="grid gap-3 sm:gap-4 grid-cols-3 sm:grid-cols-4">
+      {/* Stats — 2×2 on mobile, 4-col on sm+ */}
+      <div className="grid gap-3 grid-cols-2 sm:grid-cols-4">
         <Card>
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <p className="text-2xl sm:text-3xl font-bold text-yellow-600">{mockOrders.pending.length}</p>
-                <p className="text-xs sm:text-sm text-muted-foreground">Pending</p>
+              <div>
+                <p className="text-2xl font-bold text-yellow-600">{mockOrders.pending.length}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">Pending</p>
               </div>
-              <Clock className="h-5 w-5 text-yellow-600/50 flex-shrink-0" />
+              <Clock className="h-5 w-5 text-yellow-600/40 shrink-0" />
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <p className="text-2xl sm:text-3xl font-bold text-blue-600">{mockOrders.processing.length}</p>
-                <p className="text-xs sm:text-sm text-muted-foreground">Processing</p>
+              <div>
+                <p className="text-2xl font-bold text-blue-600">{mockOrders.processing.length}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">Processing</p>
               </div>
-              <ArrowRight className="h-5 w-5 text-blue-600/50 flex-shrink-0" />
+              <ArrowRight className="h-5 w-5 text-blue-600/40 shrink-0" />
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <p className="text-2xl sm:text-3xl font-bold text-green-600">{mockOrders.completed.length}</p>
-                <p className="text-xs sm:text-sm text-muted-foreground">Completed</p>
+              <div>
+                <p className="text-2xl font-bold text-green-600">{mockOrders.completed.length}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">Completed</p>
               </div>
-              <CheckCircle2 className="h-5 w-5 text-green-600/50 flex-shrink-0" />
+              <CheckCircle2 className="h-5 w-5 text-green-600/40 shrink-0" />
             </div>
           </CardContent>
         </Card>
-        <Card className="hidden sm:block">
+        <Card>
           <CardContent className="p-4">
             <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <p className="text-2xl sm:text-3xl font-bold text-foreground">
-                  ₦{(
-                    [...mockOrders.pending, ...mockOrders.processing, ...mockOrders.completed]
-                      .reduce((sum, order) => sum + parseInt(order.amount.replace(/[^\d]/g, "")), 0) / 1000
-                  ).toFixed(0)}K
-                </p>
-                <p className="text-xs sm:text-sm text-muted-foreground">Total Revenue</p>
+              <div>
+                <p className="text-2xl font-bold text-foreground">₦{totalRevenue.toFixed(0)}K</p>
+                <p className="text-xs text-muted-foreground mt-0.5">Revenue</p>
               </div>
-              <TrendingUp className="h-5 w-5 text-foreground/50 flex-shrink-0" />
+              <TrendingUp className="h-5 w-5 text-foreground/30 shrink-0" />
             </div>
           </CardContent>
         </Card>
@@ -364,92 +375,86 @@ export default function OrdersPage() {
 
       {/* Orders Tabs */}
       <Card>
-        <CardHeader>
+        <CardHeader className="pb-2">
           <CardTitle>All Orders</CardTitle>
           <CardDescription>View and manage orders by status</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="pending" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-6">
-              <TabsTrigger value="pending" className="flex items-center gap-2">
-                <Clock className="h-4 w-4 hidden sm:block" />
-                <span>Pending</span>
-                <Badge variant="secondary" className="ml-1">{mockOrders.pending.length}</Badge>
-              </TabsTrigger>
-              <TabsTrigger value="processing" className="flex items-center gap-2">
-                <ArrowRight className="h-4 w-4 hidden sm:block" />
-                <span>Processing</span>
-                <Badge variant="secondary" className="ml-1">{mockOrders.processing.length}</Badge>
-              </TabsTrigger>
-              <TabsTrigger value="completed" className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 hidden sm:block" />
-                <span>Completed</span>
-                <Badge variant="secondary" className="ml-1">{mockOrders.completed.length}</Badge>
-              </TabsTrigger>
-            </TabsList>
+            {/* Tabs scroll on very small screens */}
+            <div className="overflow-x-auto -mx-1 px-1 mb-5">
+              <TabsList className="inline-flex w-full min-w-[280px] grid-cols-3 sm:grid sm:w-full">
+                <TabsTrigger value="pending" className="flex-1 flex items-center justify-center gap-1.5 text-xs sm:text-sm">
+                  <Clock className="h-3.5 w-3.5 hidden sm:block shrink-0" />
+                  Pending
+                  <Badge variant="secondary" className="ml-0.5 text-xs px-1.5 py-0 min-w-[20px]">
+                    {mockOrders.pending.length}
+                  </Badge>
+                </TabsTrigger>
+                <TabsTrigger value="processing" className="flex-1 flex items-center justify-center gap-1.5 text-xs sm:text-sm">
+                  <ArrowRight className="h-3.5 w-3.5 hidden sm:block shrink-0" />
+                  Processing
+                  <Badge variant="secondary" className="ml-0.5 text-xs px-1.5 py-0 min-w-[20px]">
+                    {mockOrders.processing.length}
+                  </Badge>
+                </TabsTrigger>
+                <TabsTrigger value="completed" className="flex-1 flex items-center justify-center gap-1.5 text-xs sm:text-sm">
+                  <CheckCircle2 className="h-3.5 w-3.5 hidden sm:block shrink-0" />
+                  Completed
+                  <Badge variant="secondary" className="ml-0.5 text-xs px-1.5 py-0 min-w-[20px]">
+                    {mockOrders.completed.length}
+                  </Badge>
+                </TabsTrigger>
+              </TabsList>
+            </div>
 
-            {/* Pending Tab */}
-            <TabsContent value="pending" className="space-y-3">
+            <TabsContent value="pending" className="space-y-3 mt-0">
               {mockOrders.pending.length > 0 ? (
-                <>
-                  {mockOrders.pending.map((order) => (
-                    <PendingOrderCard
-                      key={order.id}
-                      order={order}
-                      onAction={handleOrderAction}
-                    />
-                  ))}
-                </>
+                mockOrders.pending.map((order) => (
+                  <PendingOrderCard key={order.id} order={order} onAction={handleOrderAction} />
+                ))
               ) : (
-                <div className="text-center py-8">
-                  <Clock className="h-12 w-12 mx-auto text-muted-foreground opacity-50 mb-3" />
-                  <p className="text-muted-foreground">No pending orders</p>
-                </div>
+                <EmptyState icon={Clock} message="No pending orders" />
               )}
             </TabsContent>
 
-            {/* Processing Tab */}
-            <TabsContent value="processing" className="space-y-3">
+            <TabsContent value="processing" className="space-y-3 mt-0">
               {mockOrders.processing.length > 0 ? (
-                <>
-                  {mockOrders.processing.map((order) => (
-                    <ProcessingOrderCard
-                      key={order.id}
-                      order={order}
-                      onAction={handleOrderAction}
-                    />
-                  ))}
-                </>
+                mockOrders.processing.map((order) => (
+                  <ProcessingOrderCard key={order.id} order={order} onAction={handleOrderAction} />
+                ))
               ) : (
-                <div className="text-center py-8">
-                  <ArrowRight className="h-12 w-12 mx-auto text-muted-foreground opacity-50 mb-3" />
-                  <p className="text-muted-foreground">No orders being processed</p>
-                </div>
+                <EmptyState icon={ArrowRight} message="No orders being processed" />
               )}
             </TabsContent>
 
-            {/* Completed Tab */}
-            <TabsContent value="completed" className="space-y-3">
+            <TabsContent value="completed" className="space-y-3 mt-0">
               {mockOrders.completed.length > 0 ? (
-                <>
-                  {mockOrders.completed.map((order) => (
-                    <CompletedOrderCard
-                      key={order.id}
-                      order={order}
-                      onAction={handleOrderAction}
-                    />
-                  ))}
-                </>
+                mockOrders.completed.map((order) => (
+                  <CompletedOrderCard key={order.id} order={order} onAction={handleOrderAction} />
+                ))
               ) : (
-                <div className="text-center py-8">
-                  <CheckCircle2 className="h-12 w-12 mx-auto text-muted-foreground opacity-50 mb-3" />
-                  <p className="text-muted-foreground">No completed orders</p>
-                </div>
+                <EmptyState icon={CheckCircle2} message="No completed orders" />
               )}
             </TabsContent>
           </Tabs>
         </CardContent>
       </Card>
     </div>
-  )
+  );
+}
+
+function EmptyState({
+  icon: Icon,
+  message,
+}: {
+  icon: React.ElementType;
+  message: string;
+}) {
+  return (
+    <div className="flex flex-col items-center justify-center py-12 text-center">
+      <Icon className="h-10 w-10 text-muted-foreground/30 mb-3" />
+      <p className="text-sm text-muted-foreground">{message}</p>
+    </div>
+  );
 }
