@@ -235,16 +235,17 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Revenue Overview */}
-      <Card>
+      <Card className="overflow-hidden">
         <CardHeader className="pb-2">
           <CardTitle>Revenue Overview</CardTitle>
           <CardDescription>Monthly revenue and order trends for the year</CardDescription>
         </CardHeader>
         <CardContent className="pt-0 px-2 sm:px-6">
+          <div className="w-full min-w-0 overflow-hidden">
           <ChartContainer config={revenueChartConfig} className="h-[260px] sm:h-[320px] w-full">
             <AreaChart
               data={revenueData}
-              margin={{ top: 10, right: 4, left: 0, bottom: 0 }}
+              margin={{ top: 10, right: 2, left: 0, bottom: 0 }}
             >
               <defs>
                 <linearGradient id="fillRevenue" x1="0" y1="0" x2="0" y2="1">
@@ -290,18 +291,20 @@ export default function AnalyticsPage() {
               />
             </AreaChart>
           </ChartContainer>
+          </div>
         </CardContent>
       </Card>
 
       {/* Two Column Charts */}
       <div className="grid gap-5 sm:gap-6 lg:grid-cols-2">
         {/* Customer Acquisition */}
-        <Card>
+        <Card className="overflow-hidden">
           <CardHeader className="pb-2">
             <CardTitle>Customer Acquisition</CardTitle>
             <CardDescription>New vs returning customers over time</CardDescription>
           </CardHeader>
           <CardContent className="pt-0 px-2 sm:px-6">
+            <div className="w-full min-w-0 overflow-hidden">
             <ChartContainer config={customerChartConfig} className="h-[240px] sm:h-[260px] w-full">
               <BarChart
                 data={customerData}
@@ -328,16 +331,18 @@ export default function AnalyticsPage() {
                 <Bar dataKey="returning" fill="var(--color-returning)" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ChartContainer>
+            </div>
           </CardContent>
         </Card>
 
         {/* Traffic Sources */}
-        <Card>
+        <Card className="overflow-hidden">
           <CardHeader className="pb-2">
             <CardTitle>Traffic Sources</CardTitle>
             <CardDescription>Where your visitors come from</CardDescription>
           </CardHeader>
           <CardContent className="pt-0">
+            <div className="w-full min-w-0 overflow-hidden">
             <ChartContainer config={trafficChartConfig} className="h-[240px] sm:h-[260px] w-full">
               <PieChart>
                 <ChartTooltip content={<ChartTooltipContent hideLabel />} />
@@ -361,6 +366,7 @@ export default function AnalyticsPage() {
                 />
               </PieChart>
             </ChartContainer>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -368,12 +374,13 @@ export default function AnalyticsPage() {
       {/* Sales by Category and Daily Sales */}
       <div className="grid gap-5 sm:gap-6 lg:grid-cols-3">
         {/* Category Performance */}
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 overflow-hidden">
           <CardHeader className="pb-2">
             <CardTitle>Sales by Category</CardTitle>
             <CardDescription>Revenue breakdown by product category</CardDescription>
           </CardHeader>
           <CardContent className="pt-0 px-2 sm:px-6">
+            <div className="w-full min-w-0 overflow-hidden">
             <ChartContainer config={categoryChartConfig} className="h-[260px] sm:h-[280px] w-full">
               <BarChart
                 data={categoryData}
@@ -394,8 +401,8 @@ export default function AnalyticsPage() {
                   type="category"
                   tickLine={false}
                   axisLine={false}
-                  width={90}
-                  tick={{ fontSize: 12 }}
+                  width={76}
+                  tick={{ fontSize: 11 }}
                   tickMargin={4}
                 />
                 <ChartTooltip
@@ -411,16 +418,18 @@ export default function AnalyticsPage() {
                 <Bar dataKey="sales" fill="var(--color-sales)" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ChartContainer>
+            </div>
           </CardContent>
         </Card>
 
         {/* Daily Sales */}
-        <Card>
+        <Card className="overflow-hidden">
           <CardHeader className="pb-2">
             <CardTitle>This Week</CardTitle>
             <CardDescription>Daily sales performance</CardDescription>
           </CardHeader>
           <CardContent className="pt-0 px-2 sm:px-6">
+            <div className="w-full min-w-0 overflow-hidden">
             <ChartContainer config={dailySalesChartConfig} className="h-[260px] sm:h-[280px] w-full">
               <LineChart
                 data={dailySalesData}
@@ -462,6 +471,7 @@ export default function AnalyticsPage() {
                 />
               </LineChart>
             </ChartContainer>
+            </div>
           </CardContent>
         </Card>
       </div>
